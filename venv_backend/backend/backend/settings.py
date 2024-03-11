@@ -1,3 +1,5 @@
+import os
+
 """
 Django settings for backend project.
 
@@ -37,6 +39,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
+    # installed apps
+    "post_snack.apps.PostSnackConfig",
+    "accounts.apps.AccountsConfig",
+    "external_snack.apps.ExternalSnackConfig",
 ]
 
 MIDDLEWARE = [
@@ -75,8 +82,12 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "snack",
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST":'',
+        "PORT":'',
     }
 }
 
