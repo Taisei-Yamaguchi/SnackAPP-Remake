@@ -25,12 +25,12 @@ def get_toriko_data():
         print("Error: ", e)
         return None
 
-def get_toriko_data_filter(type=None, maker=None, keyword=None, sort=None, order=None):
+def get_toriko_data_filter(type=None, maker=None, keyword=None, sort=None, order='r', max=100):
     # param
     params = {
         "apikey": "guest",
         "format": "json",
-        "max": 100,
+        "max": max,
     }
     
     if type is not None:
