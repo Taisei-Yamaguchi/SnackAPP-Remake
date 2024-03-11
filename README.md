@@ -26,6 +26,7 @@
   
 ## Wireframs
 ## User Flow Chart
+## Site Map
 ## ERD
 ## External API
 ## Tech Choices
