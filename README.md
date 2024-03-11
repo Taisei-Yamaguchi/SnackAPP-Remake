@@ -29,6 +29,8 @@
 ## Site Map
 ## ERD
 ## External API
+>
+  - [お菓子の虜](https://sysbird.jp/toriko/webapi/)
 ## Tech Choices
 >
   - Frontend
