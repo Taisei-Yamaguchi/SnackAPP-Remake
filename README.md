@@ -4,13 +4,30 @@
 - **Purpose** :
   - Create App for users to be able to view any snacks in many countries.
   - SigninUsers can use "like", "post","recieve suggestion" functions.
-  - NonSigninUsers can only use "search snacks",""
+  - NonSigninUsers can only use "search snacks" functions.
  
 ## User stories
-## Functions
+>
+  - Search Snacks
+    - order by "Popularity","Newest","Oldest","Poster".
+    - filter by "types","countries","Maker".
+  - Search Snacks (that user "liked").
+  - Authenticate
+    - Login
+    - Logout
+    - Register
+    - Delete
+  - Post Snacks
+    - post
+    - delete
+    - patch
+  - Suggestions
+  - Suggestions for NonSigninUser
+  
 ## Wireframs
 ## User Flow Chart
 ## ERD
+## External API
 ## Tech Choices
 >
   - Frontend
@@ -21,3 +38,4 @@
     - PostgreSQL
   - Deisgn
     - Tailwind,daisyUI
+## References
