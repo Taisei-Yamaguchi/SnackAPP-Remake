@@ -59,6 +59,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    
+    # new installed
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -138,4 +141,19 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# set Accounts
 AUTH_USER_MODEL = 'accounts.Account'
+
+CORS_ALLOW_ALL_ORIGINS = True  # すべてのオリジンからのリクエストを許可する場合
+# CORS_ALLOWED_ORIGINS = [  # 特定のオリジンのみを許可する場合
+#     'http://example.com',
+#     'https://example.com',
+# ]
+
+# other CORS settings
+# CORS_ALLOW_METHODS
+# CORS_ALLOW_HEADERS
+# CORS_ALLOW_CREDENTIALS
+# CORS_EXPOSE_HEADERS
+# CORS_PREFLIGHT_MAX_AGE
+# CORS_ALLOW_ALL_ORIGINS_REGEX

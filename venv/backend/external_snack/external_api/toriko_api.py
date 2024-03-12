@@ -1,6 +1,7 @@
 # toriko_api.py
 
 import requests
+import urllib.parse
 
 # endpoint
 url = "https://sysbird.jp/toriko/api/"
@@ -25,29 +26,33 @@ def get_toriko_data():
         print("Error: ", e)
         return None
 
-def get_toriko_data_filter(type=None, maker=None, keyword=None, sort=None, order=None):
+def get_toriko_data_filter(type=None, maker=None, keyword=None, sort=None, order='r', max=10):
     # param
     params = {
         "apikey": "guest",
         "format": "json",
-        "max": 100,
+        "max": max,
+        # "offset":2, # 10をセットすると11から取得。
     }
     
     if type is not None:
         params["type"] = type
     if maker is not None:
-        params["maker"] = maker
+        encoded_maker = urllib.parse.quote(maker, safe='')
+        params["maker"] = encoded_maker
     if keyword is not None:
-        params["keyword"] = keyword
+        encoded_keyword = urllib.parse.quote(keyword, safe='')
+        params["keyword"] = encoded_keyword
     if sort is not None:
         params["sort"] = sort
     if order is not None:
         params["order"] = order
     
+    print(params)
     try:
         response = requests.get(url, params=params)
         
-        if response.status_code == 200:
+        if response.status_code == 100:
             data = response.json()
             return data
         else:
