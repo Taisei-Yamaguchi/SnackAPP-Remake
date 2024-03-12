@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     # "allauth.account",
     
     # created apps
-    "post_snack.apps.PostSnackConfig",
+    "snack.apps.SnackConfig",
     "accounts.apps.AccountsConfig",
     "external_snack.apps.ExternalSnackConfig",
 ]

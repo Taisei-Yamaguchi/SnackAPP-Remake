@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from external_snack.urls import urlpatterns as external_snack_urls
+# from external_snack.urls import urlpatterns as external_snack_urls
+from snack.urls import urlpatterns as post_snack_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("external-snack/",include(external_snack_urls)),
+    path("snack/",include(post_snack_urls)),
 ]
