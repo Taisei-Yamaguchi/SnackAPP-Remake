@@ -37,7 +37,8 @@
     
 ## External API
 >
-  - [お菓子の虜](https://sysbird.jp/toriko/webapi/)
+  - <del>[お菓子の虜](https://sysbird.jp/toriko/webapi/)</del>
+ 
 ## Tech Choices
 >
   - Frontend

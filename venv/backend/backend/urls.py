@@ -20,5 +20,5 @@ from external_snack.urls import urlpatterns as external_snack_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("external_snack/",include(external_snack_urls)),
+    path("external-snack/",include(external_snack_urls)),
 ]

@@ -21,16 +21,15 @@ const SnackSearch = () => {
         const query = queryParams ? `?${queryParams}` : '';
         console.log('queryparams', query);
 
-        // APIリクエストの送信
-        // fetch(`http://api.example.com/search${query}`)
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         // データの処理
-        //         console.log(data);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error fetching data:', error);
-        //     });
+        // API request
+        fetch(`http://localhost:8000/external-snack/toriko-search/${query}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
     };
 
     return (
@@ -38,42 +37,44 @@ const SnackSearch = () => {
             <div className="border w-3/4">
                 <div>
                     <label className="w-3/4 input input-sm input-bordered flex items-center gap-2">
-                        <input type="text" className="grow" placeholder="Keyword" value={keyword} onChange={e => setKeyword(e.target.value)} />
+                        <input type="text" className="grow" placeholder="snack name" value={keyword} onChange={e => setKeyword(e.target.value)} />
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
                     </label>
+					{/* <label className="w-3/4 input input-sm input-bordered flex items-center gap-2">
+                        <input type="text" className="grow" placeholder="keypoint" value={keyword} onChange={e => setKeyword(e.target.value)} />
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
+                    </label> */}
                     <label className="w-3/4 input input-sm input-bordered flex items-center gap-2">
                         <input type="text" className="grow" placeholder="Maker" value={maker} onChange={e => setMaker(e.target.value)} />
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
                     </label>
 
                     <select className="select select-bordered select-sm w-3/4 max-w-xs" value={order} onChange={e => setOrder(e.target.value)}>
-                        <option value="" selected disabled>Order</option>
-                        <option value="d">Newest</option>
-                        <option value="a">Oldest</option>
-                        <option value="r">Random</option>
-                    </select>
-                    <select className="select select-bordered select-sm w-3/4 max-w-xs" value={sort} onChange={e => setSort(e.target.value)}>
-                        <option value="" selected disabled>Sort</option>
-                        <option value="maker">Maker</option>
-                        <option value="kana">Kana</option>
-                        <option value="regist">Regist</option>
-                    </select>
+						<option value="">Order</option>
+						<option value="d">Newest</option>
+						<option value="a">Oldest</option>
+						<option value="r">Random</option>
+					</select>
+					<select className="select select-bordered select-sm w-3/4 max-w-xs" value={sort} onChange={e => setSort(e.target.value)}>
+						<option value="">Sort</option>
+						<option value="maker">Maker</option>
+						<option value="kana">Kana</option>
+						<option value="regist">Regist</option>
+					</select>
+					<select className="select select-bordered select-sm w-3/4 max-w-xs" value={country} onChange={e => setCountry(e.target.value)}>
+						<option value="">Country</option>
+						<option value="japan">Japan</option>
+						<option value="canada">Canada</option>
+						<option value="other">Other</option>
+					</select>
+					<select className="select select-bordered select-sm w-3/4 max-w-xs" value={type} onChange={e => setType(e.target.value)}>
+						<option value="">Type</option>
+						<option value="1">Snack</option>
+						<option value="2">Chocolate</option>
+						<option value="3">Cookie</option>
+						<option value="4">Candy,Gumi,Ramune etc</option>
+					</select>
 
-                    <select className="select select-bordered select-sm w-3/4 max-w-xs" value={country} onChange={e => setCountry(e.target.value)}>
-                        <option value="" selected disabled>Country</option>
-                        <option value="japan">Japan</option>
-                        <option value="canada">Canada</option>
-                        <option value="other">Other</option>
-                    </select>
-
-                    <select className="select select-bordered select-sm w-3/4 max-w-xs" value={type} onChange={e => setType(e.target.value)}>
-                        <option value="" selected disabled>Type</option>
-                        <option value="snack">Snack</option>
-                        <option value="senbei">Senbei</option>
-                        <option value="chocolate">Chocolate</option>
-                        <option value="cookie">Cookie</option>
-                        <option value="candy">Candy</option>
-                    </select>
                 </div>
 
                 <button onClick={handleSearch} className="btn">

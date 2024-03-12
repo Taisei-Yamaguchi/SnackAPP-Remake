@@ -17,5 +17,5 @@ class TorikoSearchAPIView(APIView):
         order = request.query_params.get('order', None)
         sort = request.query_params.get('sort', None)
         
-        data = get_toriko_data_filter(type, maker, keyword, sort, order,150)
+        data = get_toriko_data_filter(type, maker, keyword, sort, order,10)
         return Response(data)
