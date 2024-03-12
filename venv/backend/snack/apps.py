@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class PostSnackConfig(AppConfig):
+class SnackConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "post_snack"
+    name = "snack"
