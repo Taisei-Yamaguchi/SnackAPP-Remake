@@ -28,6 +28,8 @@ class Command(BaseCommand):
             'post_snack/seeds/toriko_snacks_r17.json',
             'post_snack/seeds/toriko_snacks_r18.json',
             'post_snack/seeds/toriko_snacks_r19.json',
+            'post_snack/seeds/toriko_snacks_r20.json',
+            'post_snack/seeds/toriko_snacks_r21.json',
         ]
         
         for json_file_path in json_file_paths:
@@ -42,7 +44,7 @@ class Command(BaseCommand):
                             name=item['name'],
                             # kana=item['kana',None],
                             maker=item['maker'],
-                            price=item.get('price', None),  # Using .get() to handle missing 'price'
+                            price=int(item.get('price')) if item.get('price') and item.get('price').isdigit() else None,  # Converting 'price' to integer if it's a digit
                             type=item['type'],
                             url=item.get('url', None),  # Using .get() to handle missing 'url'
                             image=item.get('image', None),  # Using .get() to handle missing 'image'
