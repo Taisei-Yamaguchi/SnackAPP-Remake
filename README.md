@@ -42,11 +42,13 @@
 ## Tech Choices
 >
   - Frontend
-    - React.js, Next.js, Typescript
+    - Next.js 14.1.3 
+    - Typescript 5.4.2
   - Backend
-    - Django
+    - Python 3.11.3
+    - Django 5.0.3
   - Database
-    - PostgreSQL
+    - PostgreSQL 14.10
   - Design
-    - Tailwind,daisyUI
+    - Tailwind 3.4.1 (daisyUI)
 ## References
