@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     # "django.contrib.site",
     # "allauth",
     # "allauth.account",
+    'rest_framework',
+    'rest_framework.authtoken',
     
     # created apps
     "snack.apps.SnackConfig",
@@ -158,3 +160,9 @@ CORS_ALLOW_ALL_ORIGINS = True  # すべてのオリジンからのリクエス�
 # CORS_EXPOSE_HEADERS
 # CORS_PREFLIGHT_MAX_AGE
 # CORS_ALLOW_ALL_ORIGINS_REGEX
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}

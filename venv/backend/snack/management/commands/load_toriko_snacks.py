@@ -1,10 +1,10 @@
 # post_snack/management/commands/load_toriko_snacks.py
 import json
 from django.core.management.base import BaseCommand
-from ...models import TorikoSnackModel
+from ...models import SnackModel
 
 class Command(BaseCommand):
-    help = 'Load data from JSON files into TorikoSnackModel'
+    help = 'Load toriko-data from JSON files into SnackModel'
 
     def handle(self, *args, **options):
         # JSON file path
@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 
                 for item in items:
                     try:
-                        TorikoSnackModel.objects.create(
+                        SnackModel.objects.create(
                             tid=item['id'],
                             name=item['name'],
                             # kana=item['kana',None],
@@ -49,7 +49,8 @@ class Command(BaseCommand):
                             url=item.get('url', None),  # Using .get() to handle missing 'url'
                             image=item.get('image', None),  # Using .get() to handle missing 'image'
                             # comment=item.get('comment', None),  # Using .get() to handle missing 'comment'
-                            # regist=item['regist',None]
+                            # regist=item['regist',None],
+                            country ='Japan',
                         )
                     except Exception as e:
                         print(f"Error occurred while processing data: {e}")

@@ -1,11 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import requests
-# from .models import TorikoSnackModel
-from .repositries.search_toriko_snack import getTorikoSnack
+from .repositries.search_snack import getSearchSnack
 
 
-class TorikoSearchAPIView(APIView):
+class SnackSearchAPIView(APIView):
     def get(self,request):
         # query
         type = request.query_params.get('type', None)
@@ -16,7 +15,7 @@ class TorikoSearchAPIView(APIView):
         sort = request.query_params.get('sort', None)
         offset = request.query_params.get('offset',0)
         
-        data = getTorikoSnack(
+        data = getSearchSnack(
             type=type,
             maker=maker,
             keyword=keyword,

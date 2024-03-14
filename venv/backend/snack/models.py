@@ -1,50 +1,30 @@
 from django.db import models
 from accounts.models import Account
+from django.core.exceptions import ValidationError
 
-class TorikoSnackModel(models.Model):
-    tid =models.CharField(unique=True,null=True)
+class SnackModel(models.Model):
+    tid = models.CharField(unique=True, null=True)
     name = models.CharField(max_length=255)
     maker = models.CharField(max_length=255)
     price = models.IntegerField(null=True) 
     type = models.CharField(max_length=50)
-    url = models.URLField(null=True)
-    image = models.URLField(null=True)
-    like_count = models.IntegerField(default=0) 
-    
-    def __str__(self):
-        return self.name
-                
-    def save(self, *args, **kwargs):
-        """
-        Save the model instance, ensuring that fields are validated and cleaned before saving.
-        """
-        self.full_clean()  # Validate and clean all fields before saving
-        super().save(*args, **kwargs)
-    
-    def increment_like_count(self):
-        self.like_count += 1
-        self.save()
-
-    def decrement_like_count(self):
-        if self.like_count > 0:
-            self.like_count -= 1
-            self.save()
-        
-
-class PostSnackModel(models.Model):
-    account = models.ForeignKey(Account, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
     country = models.CharField(max_length=255)
-    type = models.CharField(max_length=255)
-    maker = models.CharField(max_length=255)
-    image = models.URLField(blank=True, null=True)
-    url = models.URLField(blank=True, null=True)
+    image = models.CharField(max_length=255, null=True)
+    url = models.URLField(null=True)
     show = models.BooleanField(default=True)
-    like_count = models.IntegerField(default=0) 
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)  
+    like_count = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
 
+    def clean(self):
+        # Check if both tid and account are not null
+        if self.tid is None and self.account is None:
+            raise ValidationError("Both tid and account cannot be null.")
+        # Check if both tid and account are not both filled
+        if self.tid and self.account:
+            raise ValidationError("Either tid or account should be null, not both filled.")
     def increment_like_count(self):
         self.like_count += 1
         self.save()

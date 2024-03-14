@@ -29,11 +29,11 @@ const SnackItem: FC<Props> = ({ snack }) => {
             dispatch(setReloading(true)); // reloading true
             const data =await toggleLike(snackId)
             console.log(data) 
-            } catch (error) {
-                console.error('Error updating text:', error);
-            } finally {
-          dispatch(setReloading(false)); // reloading false
-            }
+        } catch (error) {
+            console.error('Error updating text:', error);
+        } finally {
+            dispatch(setReloading(false)); // reloading false
+        }
     };
 
     return (
