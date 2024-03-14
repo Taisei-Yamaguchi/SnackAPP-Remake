@@ -1,7 +1,11 @@
 "use client"
 import React, { useState } from 'react';
+import { useAppDispatch } from '@/store';
+import { setSnackResult } from '@/store/slices/snackResult.slice';
 
 const SnackSearch = () => {
+    const dispatch = useAppDispatch();
+
     const [keyword, setKeyword] = useState('');
     const [maker, setMaker] = useState('');
     const [order, setOrder] = useState('');
@@ -26,6 +30,7 @@ const SnackSearch = () => {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
+                dispatch(setSnackResult(data))
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
