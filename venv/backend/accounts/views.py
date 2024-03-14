@@ -68,9 +68,9 @@ class LoginAPIView(APIView):
             return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
         
 class LogoutAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
-        authentication_classes = [TokenAuthentication]
-        permission_classes = [IsAuthenticated]
         token = request.headers.get('token')
 
         try:
