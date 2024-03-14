@@ -1,12 +1,13 @@
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { counterSlice , snackResultSlice} from './slices';
+import { counterSlice , snackResultSlice, reloadSlice} from './slices';
 
 export const mainStore = configureStore({
   reducer: {
     counter: counterSlice,
     snackResult: snackResultSlice, 
+    reloadSlice: reloadSlice
   },
 });
 

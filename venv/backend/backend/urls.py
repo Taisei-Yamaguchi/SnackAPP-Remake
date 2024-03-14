@@ -18,8 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 # from external_snack.urls import urlpatterns as external_snack_urls
 from snack.urls import urlpatterns as post_snack_urls
+from like.urls import urlpatterns as like_urls
+from accounts.urls import urlpatterns as accounts_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("snack/",include(post_snack_urls)),
+    path("like/",include(like_urls)),
+    path("accounts/",include(accounts_urls)),
 ]

@@ -9,7 +9,8 @@ class TorikoSnackModel(models.Model):
     type = models.CharField(max_length=50)
     url = models.URLField(null=True)
     image = models.URLField(null=True)
-
+    like_count = models.IntegerField(default=0) 
+    
     def __str__(self):
         return self.name
                 
@@ -19,6 +20,15 @@ class TorikoSnackModel(models.Model):
         """
         self.full_clean()  # Validate and clean all fields before saving
         super().save(*args, **kwargs)
+    
+    def increment_like_count(self):
+        self.like_count += 1
+        self.save()
+
+    def decrement_like_count(self):
+        if self.like_count > 0:
+            self.like_count -= 1
+            self.save()
         
 
 class PostSnackModel(models.Model):
@@ -30,6 +40,16 @@ class PostSnackModel(models.Model):
     image = models.URLField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
     show = models.BooleanField(default=True)
+    like_count = models.IntegerField(default=0) 
 
     def __str__(self):
         return self.name
+
+    def increment_like_count(self):
+        self.like_count += 1
+        self.save()
+
+    def decrement_like_count(self):
+        if self.like_count > 0:
+            self.like_count -= 1
+            self.save()
