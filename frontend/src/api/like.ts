@@ -1,5 +1,5 @@
-export const toggleLike= async (toriko_snack_id:number)=>{
-    const response = await fetch(`http://localhost:8000/like/toriko_snack/${toriko_snack_id}/`, {
+export const toggleLike= async (snack_id:number)=>{
+    const response = await fetch(`http://localhost:8000/like/${snack_id}/`, {
         method: 'PATCH',
         headers: {
             "content-type": "application/json",

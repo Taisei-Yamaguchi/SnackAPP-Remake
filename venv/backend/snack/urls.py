@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import TorikoSearchAPIView 
+from .views import SnackSearchAPIView 
 
 urlpatterns = [
-    path('toriko-search/', TorikoSearchAPIView.as_view(), name='toriko_search_api'),
+    path('search/', SnackSearchAPIView.as_view(), name='snack-search'),
 ]
