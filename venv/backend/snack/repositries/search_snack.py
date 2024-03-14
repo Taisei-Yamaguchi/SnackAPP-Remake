@@ -2,11 +2,8 @@ from ..models import SnackModel
 from like.models import LikeModel
 from accounts.models import Account
 
-def getSearchSnack(type,maker,keyword,country,sort,order,offset):
+def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset):
     queryset = SnackModel.objects.all()
-
-    # temprary data 
-    loginAccount = Account.objects.first()
     
     # filter
     if type:
@@ -49,7 +46,7 @@ def getSearchSnack(type,maker,keyword,country,sort,order,offset):
     data = []
     for obj in queryset:
         # Check if the account has liked this TorikoSnack
-        liked = LikeModel.objects.filter(account_id=loginAccount.id, snack_id=obj.id).exists()
+        liked = False if login_user is None else LikeModel.objects.filter(account_id=login_user.id, snack_id=obj.id).exists()
         # Get the number of likes for this TorikoSnack
         like_count = LikeModel.objects.filter(snack_id=obj.id).count()
 

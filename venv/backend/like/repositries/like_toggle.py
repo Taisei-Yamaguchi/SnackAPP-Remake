@@ -3,7 +3,7 @@ from snack.models import SnackModel
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 
-def toriko_like_toggle(account, snack_id):
+def snack_like_toggle(account, snack_id):
     try:
         snack = SnackModel.objects.get(id=snack_id)
     except ObjectDoesNotExist:

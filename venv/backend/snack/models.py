@@ -6,13 +6,13 @@ class SnackModel(models.Model):
     tid = models.CharField(unique=True, null=True)
     name = models.CharField(max_length=255)
     maker = models.CharField(max_length=255)
-    price = models.IntegerField(null=True) 
+    price = models.IntegerField(null=True, default=0) 
     type = models.CharField(max_length=50)
     country = models.CharField(max_length=255)
     image = models.CharField(max_length=255, null=True)
     url = models.URLField(null=True)
     show = models.BooleanField(default=True)
-    account = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)  
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, null=True,blank=True)  
     like_count = models.IntegerField(default=0)
 
     def __str__(self):
