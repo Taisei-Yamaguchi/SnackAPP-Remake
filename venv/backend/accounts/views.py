@@ -2,6 +2,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from .models import Account
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
 
 class CreateAccountAPIView(APIView):
     def post(self, request, *args, **kwargs):
@@ -19,3 +21,21 @@ class CreateAccountAPIView(APIView):
         account.save()
         
         return Response({'message': 'Account created successfully.'}, status=status.HTTP_201_CREATED)
+
+
+class LoginAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        # try auth
+        user = authenticate(username=username, password=password)
+        
+        if user is not None:
+            # when success, return token
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key}, status=status.HTTP_200_OK)
+        else:
+            # when failed, return error
+            return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
+
