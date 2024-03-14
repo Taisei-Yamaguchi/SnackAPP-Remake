@@ -8,6 +8,9 @@ class LikeModel(models.Model):
     account_id = models.ForeignKey(Account, on_delete=models.CASCADE)
     snack_id = models.ForeignKey(SnackModel, on_delete=models.CASCADE,null=True)
     
+    class Meta:
+        unique_together = ('account_id', 'snack_id')
+        
     def clean(self):
         if self.account_id is None:
             raise ValidationError("account_id cannot be null.")

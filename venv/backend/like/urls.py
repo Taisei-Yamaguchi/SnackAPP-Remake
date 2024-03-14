@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import TorikoLikeAPIView
+from .views import LikeAPIView
 
 urlpatterns = [
-    path('<int:snack_id>/', TorikoLikeAPIView.as_view(), name='toriko_like_toggle'),
+    path('<int:snack_id>/', LikeAPIView.as_view(), name='toriko_like_toggle'),
+    
 ]
