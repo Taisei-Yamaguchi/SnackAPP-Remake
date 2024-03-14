@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "snack.apps.SnackConfig",
     "accounts.apps.AccountsConfig",
     "external_snack.apps.ExternalSnackConfig",
+    "like.apps.LikeConfig",
 ]
 
 MIDDLEWARE = [
