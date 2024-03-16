@@ -1,7 +1,7 @@
 "use client"
 import React, { FC } from 'react';
 import { FaHeart, FaRegHeart } from "react-icons/fa"
-import { toggleLike } from '@/api/like';
+import { toggleLike } from '@/django_api/like';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
 

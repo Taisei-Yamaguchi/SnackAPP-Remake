@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { RootState, useAppDispatch } from '@/store';
 import { setSnackResult } from '@/store/slices/snackResult.slice';
 import { useAppSelector } from '@/store';
-import { snackSearch } from '@/api/snack_search';
+import { snackSearch } from '@/django_api/snack_search';
 
 const SnackSearch = () => {
     const dispatch = useAppDispatch();
