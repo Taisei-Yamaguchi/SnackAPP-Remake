@@ -7,7 +7,7 @@ export const mainStore = configureStore({
   reducer: {
     counter: counterSlice,
     snackResult: snackResultSlice, 
-    reloadSlice: reloadSlice
+    reloadSlice: reloadSlice,
   },
 });
 
