@@ -7,7 +7,7 @@ const SnackList = () => {
     const snackResult = useSelector((state: RootState) => state.snackResult.snackResult);
 
     return (
-        <div className='overflow-y-auto'>
+        <div className='overflow-y-auto bg-pink-50'>
             {snackResult.length > 0 && (
                 <ul className='flex justify-center flex-wrap overflow-y-auto'>
                     {snackResult.map((snack, index) => (

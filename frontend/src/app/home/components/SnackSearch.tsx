@@ -21,11 +21,11 @@ const SnackSearch = () => {
     const [country, setCountry] = useState('');
     const [onlyLike,setOnlyLike] = useState(false);
     const [onlyYouPost,setOnlyYouPost] = useState(false)
-    const [onlyPost,setOnlyPost] = useState(false);
+    const [onlyUsersPost,setOnlyUsersPost] = useState(false);
 
     useEffect(() => {
         handleSearch();
-    }, [reloading,account,token,onlyLike]);
+    }, [reloading,account,token,onlyLike,onlyUsersPost,onlyYouPost]);
 
     const handleSearch = async () => {
         const keywordParam = keyword !== '' ? `keyword=${keyword}` : '';
@@ -35,8 +35,10 @@ const SnackSearch = () => {
         const typeParam = type !== '' ? `type=${type}` : '';
         const countryParam = country !== '' ? `country=${country}` : '';
         const onlyLikeParam = onlyLike ? `only_like=${onlyLike}`:'';
-
-        const queryParams = [keywordParam, makerParam, orderParam, sortParam, typeParam, countryParam,onlyLikeParam].filter(param => param !== '').join('&');
+        const onlyYouPostParam = onlyYouPost ? `only_you_post=${onlyYouPost}`:'';
+        const onlyUsersPostParam = onlyUsersPost ? `only_users_post=${onlyUsersPost}`:'';
+        
+        const queryParams = [keywordParam, makerParam, orderParam, sortParam, typeParam, countryParam,onlyLikeParam,onlyYouPostParam,onlyUsersPostParam].filter(param => param !== '').join('&');
         const query = queryParams ? `?${queryParams}` : '';
         console.log('queryparams', query);
 
@@ -106,7 +108,7 @@ const SnackSearch = () => {
                             type="checkbox" 
                             className="checkbox checkbox-warning" 
                             checked={onlyLike}
-                            onChange={(e) => setOnlyLike(e.target.checked)}  // 直接インラインでハンドラーを定義
+                            onChange={(e) => setOnlyLike(e.target.checked)}  
                         />
                         <span className="label-text"><FaHeart/></span>
                     </label>
@@ -115,7 +117,12 @@ const SnackSearch = () => {
                 {/* snack you post */}
                 <div className="form-control">
                     <label className="cursor-pointer label">
-                        <input type="checkbox" className="checkbox checkbox-info" />
+                    <input 
+                            type="checkbox" 
+                            className="checkbox checkbox-info" 
+                            checked={onlyYouPost}
+                            onChange={(e) => setOnlyYouPost(e.target.checked)}  
+                        />
                         <span className="label-text">Only snacks you post.</span>
                     </label>
                 </div>
@@ -123,7 +130,12 @@ const SnackSearch = () => {
                 {/* posted snacks */}
                 <div className="form-control">
                     <label className="cursor-pointer label">
-                        <input type="checkbox" className="checkbox checkbox-alert" />
+                    <input 
+                            type="checkbox" 
+                            className="checkbox checkbox-alert" 
+                            checked={onlyUsersPost}
+                            onChange={(e) => setOnlyUsersPost(e.target.checked)}  
+                        />
                         <span className="label-text">Only snacks users post.</span>
                     </label>
                 </div>

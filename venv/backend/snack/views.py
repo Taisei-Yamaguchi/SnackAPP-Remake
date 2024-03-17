@@ -30,6 +30,8 @@ class SnackSearchAPIView(APIView):
         sort = request.query_params.get('sort', None)
         offset = request.query_params.get('offset',0)
         only_like = request.query_params.get("only_like",False)
+        only_you_post = request.query_params.get("only_you_post",False)
+        only_users_post = request.query_params.get("only_users_post",False)
         
         data = getSearchSnack(
             login_user=login_user,
@@ -41,6 +43,8 @@ class SnackSearchAPIView(APIView):
             sort=sort,
             offset=offset,
             only_like=only_like,
+            only_you_post=only_you_post,
+            only_users_post=only_users_post,
         )
         
         return Response(data)

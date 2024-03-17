@@ -39,7 +39,7 @@ export default function Home() {
 				<HomeHeader />
 				<SnackSearch />
 			</div>
-			<div className="mt-64 pt-12 overflow-y-auto flex-grow">
+			<div className="mt-64 pt-12 overflow-y-auto flex-grow bg-pink-50">
 				<SnackList />
 			</div>
 		</div>
