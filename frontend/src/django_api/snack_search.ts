@@ -1,9 +1,18 @@
-export const snackSearch= async (query:string)=>{
+export const snackSearch = async (query: string, token: string | undefined | null) => {
+    const headers: { [key: string]: string } = {
+        "Content-Type": "application/json",
+    };
+
+    // if token exist, add Authorization
+    if (token) {
+        headers["Authorization"] = `Token ${token}`;
+        console.log("Token")
+    }
+
     const response = await fetch(`http://localhost:8000/snack/search/${query}`, {
         method: 'GET',
-        headers: {
-            "content-type": "application/json",
-        }
+        headers: headers,
     });
+
     return response.json();
 }

@@ -7,7 +7,9 @@ import { snackSearch } from '@/django_api/snack_search';
 
 const SnackSearch = () => {
     const dispatch = useAppDispatch();
-    const reloading = useAppSelector((state:RootState)=>state.reloadSlice.reloading)
+    const reloading = useAppSelector((state: RootState) => state.reloadSlice.reloading);
+    const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
+	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
 
     const [keyword, setKeyword] = useState('');
     const [maker, setMaker] = useState('');
@@ -16,9 +18,9 @@ const SnackSearch = () => {
     const [type, setType] = useState('');
     const [country, setCountry] = useState('');
 
-    useEffect(()=>{
-        handleSearch()
-    },[reloading])
+    useEffect(() => {
+        handleSearch();
+    }, [reloading,account,token]);
 
     const handleSearch = async () => {
         const keywordParam = keyword !== '' ? `keyword=${keyword}` : '';
@@ -30,22 +32,19 @@ const SnackSearch = () => {
 
         const queryParams = [keywordParam, makerParam, orderParam, sortParam, typeParam, countryParam].filter(param => param !== '').join('&');
         const query = queryParams ? `?${queryParams}` : '';
-        // console.log('queryparams', query);
+        console.log('queryparams', query);
 
         // API request
         try {
-			// dispatch(setReloading(true)); // reloading true
-			const data= await snackSearch(query)
-            dispatch(setSnackResult(data))
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		} finally {
-            // dispatch(setReloading(false)); // reloading false
-		}
+            const data = await snackSearch(query,token);
+            dispatch(setSnackResult(data));
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } 
     };
 
-    return (
-        <div className="bg-pink-100 m-2 p-1 h-[300px] rounded flex justify-evenly ">
+        return (
+        <div className="fixed p-2 top-14 z-10 bg-pink-100 m-2 p-1 h-50 rounded flex justify-evenly ">
             <div className=" w-3/4">
                 <div className=' w-full'>
                     <label className="w-full input input-sm input-bordered flex items-center gap-2">
@@ -98,5 +97,6 @@ const SnackSearch = () => {
         </div>
     );
 }
+
 
 export default SnackSearch;

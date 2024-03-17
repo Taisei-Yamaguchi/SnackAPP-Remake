@@ -6,16 +6,21 @@ from rest_framework import status
 from accounts.models import Account
 from .repositries.search_snack import getSearchSnack
 from .repositries.hide_snack import hide_snack
-
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import AllowAny
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 class SnackSearchAPIView(APIView):
+    permission_classes = [AllowAny]  # トークンの有無に関わらずアクセスを許可
+
     def get(self,request):
+        login_user = None
+        
         if request.user.is_authenticated:
             login_user = request.user
-        else:
-            login_user = None
+        print(login_user)
+        
         # query
         type = request.query_params.get('type', None)
         maker = request.query_params.get('maker', None)
