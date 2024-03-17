@@ -45,6 +45,7 @@ const SnackSearch = () => {
         // API request
         try {
             const data = await snackSearch(query,token);
+            console.log(data)
             dispatch(setSnackResult(data));
         } catch (error) {
             console.error('Error fetching data:', error);

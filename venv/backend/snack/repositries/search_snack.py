@@ -3,7 +3,7 @@ from like.models import LikeModel
 from accounts.models import Account
 
 def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset,only_like,only_you_post,only_users_post):
-    queryset = SnackModel.objects.all()
+    queryset = SnackModel.objects.all().filter(show=True)
     
     # filter
     if type:
@@ -73,7 +73,12 @@ def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset,only_
             'image': obj.image,
             'url': obj.url,
             'liked': liked,
-            'like_count': like_count
+            'like_count': like_count,
+            'account':
+                {  
+                'id':str(obj.account.id),
+                'username':obj.account.username
+                } if obj.account else None
         })
         
     return data

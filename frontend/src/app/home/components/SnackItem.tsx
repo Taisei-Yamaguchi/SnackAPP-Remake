@@ -7,6 +7,7 @@ import { setReloading } from '@/store/slices/reload.slice';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
+import DeleteSnack from './DeleteSnack';
 
 type Snack = {
     id: number;
@@ -19,6 +20,7 @@ type Snack = {
     type: string;
     liked: boolean;
     like_count: number;
+    account: {id:number,username:string}|null
 };
 
 type Props = {
@@ -31,6 +33,11 @@ const SnackItem: FC<Props> = ({ snack }) => {
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
 	
     const dispatch = useAppDispatch()
+
+    useEffect(()=>{
+        console.log(account,snack.account)
+    },[account,snack])
+    
     const handleLike = async (snackId:number) => {
         try {
             if (!account||!token) {
@@ -66,6 +73,12 @@ const SnackItem: FC<Props> = ({ snack }) => {
                     <div className="badge">{snack.like_count}</div>
                 </button>
                 
+                {/* delete action */}
+                {account && snack.account && account.id===snack.account.id ?(
+                <DeleteSnack snack_id={snack.id}/>
+                ):(
+                    <></>
+                )}
                 <div className="card-actions justify-end">
                     <div className="badge badge-outline">￥{snack.price}</div> 
                     <div className="badge badge-outline">Maker: {snack.maker}</div>
