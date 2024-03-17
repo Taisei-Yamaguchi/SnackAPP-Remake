@@ -2,7 +2,7 @@ from ..models import SnackModel
 from like.models import LikeModel
 from accounts.models import Account
 
-def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset):
+def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset,only_like):
     queryset = SnackModel.objects.all()
     
     # filter
@@ -39,7 +39,12 @@ def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset):
         queryset = queryset.order_by('?')
     else :
         queryset = queryset.order_by('id')
-
+        
+    # only_ike
+    if only_like and login_user is not None:
+        liked_snack_ids = LikeModel.objects.filter(account_id=login_user.id).values_list('snack_id', flat=True)
+        queryset = queryset.filter(id__in=liked_snack_ids)
+    
     # apply offset
     queryset = queryset[int(offset):int(offset) + 100]
     

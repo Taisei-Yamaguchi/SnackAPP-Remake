@@ -71,62 +71,84 @@ const LoginForm = () => {
         });
 
     return (
-        <div>
+        <div className='flex flex-col items-center justify-center h-screen'>
             {toast.message && (
             <div className={
-            clsx(`fixed z-[100] top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 `,
-            {
-            "bg-red-500": toast.type === "error",
-            "bg-green-500": toast.type === "success",
-            }
-        )}>{toast.message}</div>)}
-            <form onSubmit={formik.handleSubmit}>
-                {/* username */}
-                <input 
-                    id="username"
-                    name="username"
-                    type="text" 
-                    value={formik.values.username} 
-                    onChange={formik.handleChange} 
-                    onBlur={formik.handleBlur}
-                    placeholder="Username"
-                    className={clsx(
-                        "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
-                        {
-                            "border-2 border-red-500 bg-red-100 text-red-800":
-                            formik.touched.username && formik.errors.username,
-                        }
-                    )}
-                />
-                {formik.errors.username && formik.touched.username && (
-                        <p className="text-red-500 ml-1 my-3">{formik.errors.username}</p>
-                    )}
+                clsx(`fixed z-[100] top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 `,
+                {
+                "bg-red-500": toast.type === "error",
+                "bg-green-500": toast.type === "success",
+                }
+            )}>{toast.message}
+            </div>)}
 
-                {/* password */}
-                <input 
-                    id='password'
-                    name='password'
-                    type="password" 
-                    value={formik.values.password} 
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    placeholder="Password"
-                    className={clsx(
-                        "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
-                        {
-                            "border-2 border-red-500 bg-red-100 text-red-800":
-                            formik.touched.password && formik.errors.password,
-                        }
-                    )} 
-                />
-                {formik.errors.password && formik.touched.password && (
-                    <p className="text-red-500 ml-1 my-3">
-                        {formik.errors.password}
-                    </p>
-                )}
-
-            <button type="submit">Login</button>
-            </form>
+            <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+                <h1 className='self-center text-xl'>Login</h1>
+				<form onSubmit={formik.handleSubmit} className="card-body">
+                    {/* username */}
+                    <div className="form-control">
+                        <label className="label">
+							<span className="label-text">Username</span>
+						</label>
+                        <input 
+                            id="username"
+                            name="username"
+                            type="text" 
+                            value={formik.values.username} 
+                            onChange={formik.handleChange} 
+                            onBlur={formik.handleBlur}
+                            placeholder="Username"
+                            className={clsx(
+                                "input input-bordered block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                                {
+                                    "border-2 border-red-500 bg-red-100 text-red-800":
+                                    formik.touched.username && formik.errors.username,
+                                }
+                                )}
+                                required
+                        />
+                        {formik.errors.username && formik.touched.username && (
+                            <p className="text-red-500 ml-1 my-3">
+                                {formik.errors.username}
+                            </p>
+                        )}
+                    </div>
+                    {/* password */}
+					<div className="form-control">
+						<label className="label">
+							<span className="label-text">Password</span>
+						</label>
+                        <input 
+                            id='password'
+                            name='password'
+                            type="password" 
+                            value={formik.values.password} 
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            placeholder="Password"
+                            className={clsx(
+                                "input input-bordered  block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+                                {
+                                    "border-2 border-red-500 bg-red-100 text-red-800":
+                                    formik.touched.password && formik.errors.password,
+                                }
+                            )} 
+                        />
+                        {formik.errors.password && formik.touched.password && (
+                            <p className="text-red-500 ml-1 my-3">
+                                {formik.errors.password}
+                            </p>
+                        )}
+                        <label className="label">
+                            <a href="/home" className="label-text-alt link link-hover">Just review without login</a>
+                        </label>
+									
+					</div>
+						<div className="form-control mt-6">
+						    <button type='submit' className="btn btn-primary">Login</button>
+						</div>
+				</form>
+			</div>
         </div>
     );
 };
