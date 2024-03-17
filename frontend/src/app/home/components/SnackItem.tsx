@@ -1,9 +1,13 @@
 "use client"
-import React, { FC } from 'react';
+import React, { FC,useState,useEffect } from 'react';
 import { FaHeart, FaRegHeart } from "react-icons/fa"
-import { toggleLike } from '@/django_api/like';
+import { toggleLike } from '@/django_api/snack_like';
 import { useAppDispatch } from '@/store';
 import { setReloading } from '@/store/slices/reload.slice';
+import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/store';
+import { RootState } from '@/store';
+import DeleteSnack from './DeleteSnack';
 
 type Snack = {
     id: number;
@@ -16,6 +20,7 @@ type Snack = {
     type: string;
     liked: boolean;
     like_count: number;
+    account: {id:number,username:string}|null
 };
 
 type Props = {
@@ -23,12 +28,26 @@ type Props = {
 };
 
 const SnackItem: FC<Props> = ({ snack }) => {
+    const router = useRouter();
+    const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
+	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
+	
     const dispatch = useAppDispatch()
+
+    useEffect(()=>{
+        console.log(account,snack.account)
+    },[account,snack])
+    
     const handleLike = async (snackId:number) => {
         try {
+            if (!account||!token) {
+                router.push('/login');
+                return;
+            }
             dispatch(setReloading(true)); // reloading true
-            const data =await toggleLike(snackId)
+            const data =await toggleLike(snackId,token)
             console.log(data) 
+
         } catch (error) {
             console.error('Error updating text:', error);
         } finally {
@@ -54,6 +73,12 @@ const SnackItem: FC<Props> = ({ snack }) => {
                     <div className="badge">{snack.like_count}</div>
                 </button>
                 
+                {/* delete action */}
+                {account && snack.account && account.id===snack.account.id ?(
+                <DeleteSnack snack_id={snack.id}/>
+                ):(
+                    <></>
+                )}
                 <div className="card-actions justify-end">
                     <div className="badge badge-outline">￥{snack.price}</div> 
                     <div className="badge badge-outline">Maker: {snack.maker}</div>

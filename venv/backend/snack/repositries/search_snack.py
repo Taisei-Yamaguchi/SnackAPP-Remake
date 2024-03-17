@@ -2,8 +2,8 @@ from ..models import SnackModel
 from like.models import LikeModel
 from accounts.models import Account
 
-def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset):
-    queryset = SnackModel.objects.all()
+def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset,only_like,only_you_post,only_users_post):
+    queryset = SnackModel.objects.all().filter(show=True)
     
     # filter
     if type:
@@ -39,7 +39,20 @@ def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset):
         queryset = queryset.order_by('?')
     else :
         queryset = queryset.order_by('id')
-
+        
+    # only_ike
+    if only_like and login_user is not None:
+        liked_snack_ids = LikeModel.objects.filter(account_id=login_user.id).values_list('snack_id', flat=True)
+        queryset = queryset.filter(id__in=liked_snack_ids)
+    
+    # only_you_post
+    if only_you_post and login_user is not None:
+        queryset = queryset.filter(account=login_user)
+    
+    # only_users_post
+    if only_users_post:
+        queryset = queryset.exclude(account__isnull=True)
+    
     # apply offset
     queryset = queryset[int(offset):int(offset) + 100]
     
@@ -60,7 +73,12 @@ def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset):
             'image': obj.image,
             'url': obj.url,
             'liked': liked,
-            'like_count': like_count
+            'like_count': like_count,
+            'account':
+                {  
+                'id':str(obj.account.id),
+                'username':obj.account.username
+                } if obj.account else None
         })
         
     return data

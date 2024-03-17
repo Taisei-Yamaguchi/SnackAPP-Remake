@@ -4,10 +4,14 @@ import { RootState, useAppDispatch } from '@/store';
 import { setSnackResult } from '@/store/slices/snackResult.slice';
 import { useAppSelector } from '@/store';
 import { snackSearch } from '@/django_api/snack_search';
+import PostSnack from './PostSnack';
+import { FaHeart } from 'react-icons/fa';
 
 const SnackSearch = () => {
     const dispatch = useAppDispatch();
-    const reloading = useAppSelector((state:RootState)=>state.reloadSlice.reloading)
+    const reloading = useAppSelector((state: RootState) => state.reloadSlice.reloading);
+    const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
+	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
 
     const [keyword, setKeyword] = useState('');
     const [maker, setMaker] = useState('');
@@ -15,10 +19,13 @@ const SnackSearch = () => {
     const [sort, setSort] = useState('');
     const [type, setType] = useState('');
     const [country, setCountry] = useState('');
+    const [onlyLike,setOnlyLike] = useState(false);
+    const [onlyYouPost,setOnlyYouPost] = useState(false)
+    const [onlyUsersPost,setOnlyUsersPost] = useState(false);
 
-    useEffect(()=>{
-        handleSearch()
-    },[reloading])
+    useEffect(() => {
+        handleSearch();
+    }, [reloading,account,token,onlyLike,onlyUsersPost,onlyYouPost]);
 
     const handleSearch = async () => {
         const keywordParam = keyword !== '' ? `keyword=${keyword}` : '';
@@ -27,26 +34,27 @@ const SnackSearch = () => {
         const sortParam = sort !== '' ? `sort=${sort}` : '';
         const typeParam = type !== '' ? `type=${type}` : '';
         const countryParam = country !== '' ? `country=${country}` : '';
-
-        const queryParams = [keywordParam, makerParam, orderParam, sortParam, typeParam, countryParam].filter(param => param !== '').join('&');
+        const onlyLikeParam = onlyLike ? `only_like=${onlyLike}`:'';
+        const onlyYouPostParam = onlyYouPost ? `only_you_post=${onlyYouPost}`:'';
+        const onlyUsersPostParam = onlyUsersPost ? `only_users_post=${onlyUsersPost}`:'';
+        
+        const queryParams = [keywordParam, makerParam, orderParam, sortParam, typeParam, countryParam,onlyLikeParam,onlyYouPostParam,onlyUsersPostParam].filter(param => param !== '').join('&');
         const query = queryParams ? `?${queryParams}` : '';
-        // console.log('queryparams', query);
+        console.log('queryparams', query);
 
         // API request
         try {
-			// dispatch(setReloading(true)); // reloading true
-			const data= await snackSearch(query)
-            dispatch(setSnackResult(data))
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		} finally {
-            // dispatch(setReloading(false)); // reloading false
-		}
+            const data = await snackSearch(query,token);
+            console.log(data)
+            dispatch(setSnackResult(data));
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } 
     };
 
-    return (
-        <div className="bg-pink-100 m-2 p-1 h-[300px] rounded flex justify-evenly ">
-            <div className=" w-3/4">
+        return (
+        <div className="w-full fixed p-2 top-14 z-10 bg-pink-200 m-2 p-1 h-50 rounded flex justify-evenly border">
+            <div className="w-3/4">
                 <div className=' w-full'>
                     <label className="w-full input input-sm input-bordered flex items-center gap-2">
                         <input type="text" className="grow" placeholder="Keyword" value={keyword} onChange={e => setKeyword(e.target.value)} />
@@ -91,12 +99,52 @@ const SnackSearch = () => {
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-7 h-7 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
                 </button>
             </div>
-            <div className="border w-1/3">
+            <div className="w-1/3">
+                <PostSnack />
                 
+                {/* snack you liked */}
+                <div className="form-control">
+                    <label className="cursor-pointer label">
+                    <input 
+                            type="checkbox" 
+                            className="checkbox checkbox-warning" 
+                            checked={onlyLike}
+                            onChange={(e) => setOnlyLike(e.target.checked)}  
+                        />
+                        <span className="label-text"><FaHeart/></span>
+                    </label>
+                </div>
+
+                {/* snack you post */}
+                <div className="form-control">
+                    <label className="cursor-pointer label">
+                    <input 
+                            type="checkbox" 
+                            className="checkbox checkbox-info" 
+                            checked={onlyYouPost}
+                            onChange={(e) => setOnlyYouPost(e.target.checked)}  
+                        />
+                        <span className="label-text">Only snacks you post.</span>
+                    </label>
+                </div>
+
+                {/* posted snacks */}
+                <div className="form-control">
+                    <label className="cursor-pointer label">
+                    <input 
+                            type="checkbox" 
+                            className="checkbox checkbox-alert" 
+                            checked={onlyUsersPost}
+                            onChange={(e) => setOnlyUsersPost(e.target.checked)}  
+                        />
+                        <span className="label-text">Only snacks users post.</span>
+                    </label>
+                </div>
             </div>
             
         </div>
     );
 }
+
 
 export default SnackSearch;

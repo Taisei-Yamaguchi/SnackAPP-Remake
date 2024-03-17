@@ -6,16 +6,21 @@ from rest_framework import status
 from accounts.models import Account
 from .repositries.search_snack import getSearchSnack
 from .repositries.hide_snack import hide_snack
-
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import AllowAny
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 class SnackSearchAPIView(APIView):
+    permission_classes = [AllowAny]  # No matter token exist or not, it's possible to search snack.
+
     def get(self,request):
+        login_user = None
+        
         if request.user.is_authenticated:
             login_user = request.user
-        else:
-            login_user = None
+        print(login_user)
+        
         # query
         type = request.query_params.get('type', None)
         maker = request.query_params.get('maker', None)
@@ -24,6 +29,9 @@ class SnackSearchAPIView(APIView):
         country = request.query_params.get('country', None)
         sort = request.query_params.get('sort', None)
         offset = request.query_params.get('offset',0)
+        only_like = request.query_params.get("only_like",False)
+        only_you_post = request.query_params.get("only_you_post",False)
+        only_users_post = request.query_params.get("only_users_post",False)
         
         data = getSearchSnack(
             login_user=login_user,
@@ -33,7 +41,10 @@ class SnackSearchAPIView(APIView):
             order=order,
             country=country,
             sort=sort,
-            offset=offset
+            offset=offset,
+            only_like=only_like,
+            only_you_post=only_you_post,
+            only_users_post=only_users_post,
         )
         
         return Response(data)

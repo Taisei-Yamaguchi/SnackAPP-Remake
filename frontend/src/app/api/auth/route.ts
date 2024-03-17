@@ -6,7 +6,8 @@ import { logout } from '@/django_api/logout';
 import { destroyCookie } from 'nookies'; 
 
 type loginUser= {
-    account:{id:number,username:string},token:string; 
+    account:{id:number,username:string},
+    token:string; 
 }| null
 
 interface CustomCookies {
@@ -49,13 +50,14 @@ export async function GET(req: NextRequest) {
         const loginUsername = req.cookies.get("loginUsername")?.value;
         const loginToken = req.cookies.get("loginToken")?.value;
         
+        // Check if loginId, loginUsername, and loginToken are defined
+        const account = (loginId && loginUsername) ? { id: loginId, username: loginUsername } : null;
+        const token = loginToken || null;
+
         // Reconstruct the loginUser object
         const loginUser = {
-            account: {
-                id: loginId,
-                username: loginUsername
-            },
-            token: loginToken
+            account,
+            token
         };
 
         console.log("GET",loginUser)
