@@ -38,8 +38,6 @@ const LoginForm = () => {
         validationSchema: formSchema,
         onSubmit: async (formData) => {
             try {
-                // フォームデータをサーバーサイドに送信してログイン処理を行う
-                console.log(formData)
                 const response = await fetch('/api/auth/', {
                     method: 'POST',
                     headers: {
@@ -51,19 +49,13 @@ const LoginForm = () => {
                 if (!response.ok) {
                     throw new Error('Failed to login');
                 }
-
-                // ログインが成功した場合、サーバーサイドから受信したデータを取得
                 const data = await response.json();
-                // 受信したデータにエラーが含まれている場合はトーストを表示して終了
                 if (data.error) {
                     setToast({ message: data.error, type: "error" });
                     return;
                 }
-
-                // ログインが成功した場合、ホーム画面にリダイレクト
                 router.push('/home');
             } catch (error) {
-                // エラーハンドリング
                 console.error('Login error:', error);
                 setToast({ message: "Failed to login", type: "error" });
             }

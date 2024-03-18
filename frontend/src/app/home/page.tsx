@@ -18,7 +18,6 @@ export default function Home() {
 				const response = await fetch("/api/auth");
 				if (response.ok) {
                     const data = await response.json();
-					console.log(data.account,data.token)
 					dispatch(setAccount(data.account));
                 	dispatch(setToken(data.token));
                 } else {

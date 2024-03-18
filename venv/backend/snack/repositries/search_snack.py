@@ -1,10 +1,11 @@
 from ..models import SnackModel
 from like.models import LikeModel
 from accounts.models import Account
+from django.db.models import Case, When, F, DecimalField
 
-def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset,only_like,only_you_post,only_users_post):
+
+def getSearchSnack(login_user,type,maker,keyword,country,order,offset,only_like,only_you_post,only_users_post):
     queryset = SnackModel.objects.all().filter(show=True)
-    
     # filter
     if type:
         queryset = queryset.filter(type__icontains=type)
@@ -15,24 +16,25 @@ def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset,only_
         queryset.filter(type__icontains=keyword) | \
         queryset.filter(maker__icontains=keyword)
             
-    if country == 'other':
-        queryset = queryset.filter(maker="海外")
-    elif country == 'japan':
-        queryset = queryset.exclude(maker="海外")
-            
-    # sort
-    if sort == 'type':
-        queryset = queryset.order_by('type')
-    elif sort == 'name':
-        queryset = queryset.order_by('name')
-    elif sort == 'maker':
-        queryset = queryset.order_by('maker')
+    if country == 'Japan':
+        queryset = queryset.filter(country="Japan")
+    elif country == 'Canada':
+        queryset = queryset.filter(country="Canada")
+    elif country == 'Other':
+        queryset = queryset.exclude(country__in=["Japan", "Canada"])
         
     # order 
     if order == 'price_asc': 
-        queryset = queryset.exclude(price=0).order_by('price')
+        queryset = queryset.exclude(price=0)
+        queryset = queryset.annotate(edited_price=Case(When(country='Canada', then=F('price') * 100), default=F('price'), output_field=DecimalField()))
+        queryset = queryset.order_by('edited_price')
     elif order == 'price_desc':
-        queryset = queryset.order_by('-price')
+        queryset = queryset.exclude(price=0)
+        queryset = queryset.annotate(edited_price=Case(When(country='Canada', then=F('price') * 100), default=F('price'), output_field=DecimalField()))
+        queryset = queryset.order_by('-edited_price')
+    
+    
+    
     elif order == 'popularity':
         queryset = queryset.order_by('-like_count')
     elif order== 'random':
@@ -69,6 +71,7 @@ def getSearchSnack(login_user,type,maker,keyword,country,sort,order,offset,only_
             'name': obj.name,
             'type': obj.type,
             'maker': obj.maker,
+            'country': obj.country,
             'price': obj.price,
             'image': obj.image,
             'url': obj.url,
