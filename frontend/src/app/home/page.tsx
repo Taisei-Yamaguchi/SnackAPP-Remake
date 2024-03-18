@@ -2,6 +2,7 @@
 import SnackSearch from "./components/SnackSearch";
 import SnackList from "./components/SnackList";
 import HomeHeader from "./components/HomeHeader";
+import RecommendedSnacks from "./components/RecommendedSnacks";
 
 import { useEffect } from "react";
 import { useAppDispatch } from "@/store";
@@ -37,8 +38,9 @@ export default function Home() {
 			<div className="bg-pink-100">
 				<HomeHeader />
 				<SnackSearch />
+				<RecommendedSnacks />
 			</div>
-			<div className="mt-64 pt-12 overflow-y-auto flex-grow bg-pink-50">
+			<div className="mt-64 pt-20 overflow-y-auto flex-grow bg-pink-50">
 				<SnackList />
 			</div>
 		</div>

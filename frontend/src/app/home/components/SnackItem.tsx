@@ -1,13 +1,9 @@
 "use client"
-import React, { FC,useState,useEffect } from 'react';
-import { FaHeart, FaRegHeart } from "react-icons/fa"
-import { toggleLike } from '@/django_api/snack_like';
-import { useAppDispatch } from '@/store';
-import { setReloading } from '@/store/slices/reload.slice';
-import { useRouter } from 'next/navigation';
+import React, { FC } from 'react';
 import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 import DeleteSnack from './DeleteSnack';
+import LikeSnack from './LikeSnack';
 
 type Snack = {
     id: number;
@@ -29,29 +25,8 @@ type Props = {
 };
 
 const SnackItem: FC<Props> = ({ snack }) => {
-    const router = useRouter();
     const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
-	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
 	
-    const dispatch = useAppDispatch()
-    
-    const handleLike = async (snackId:number) => {
-        try {
-            if (!account||!token) {
-                router.push('/login');
-                return;
-            }
-            dispatch(setReloading(true)); // reloading true
-            const data =await toggleLike(snackId,token)
-            console.log(data) 
-
-        } catch (error) {
-            console.error('Error updating text:', error);
-        } finally {
-            dispatch(setReloading(false)); // reloading false
-        }
-    };
-
     return (
         
         <li>
@@ -70,10 +45,7 @@ const SnackItem: FC<Props> = ({ snack }) => {
                 </h2>
                 <div className='flex justify-between'>
                     {/* like toggle */}
-                    <button className="skeleton w-24 btn" onClick={()=>handleLike(snack.id)}>
-                        { snack.liked ?(<FaHeart/>):(<FaRegHeart/>)}
-                        <div className="badge">{snack.like_count}</div>
-                    </button>
+                    <LikeSnack snack={snack}/>
                     {/* type */}
                     <strong>{snack.type}</strong>
                     {/* url */}

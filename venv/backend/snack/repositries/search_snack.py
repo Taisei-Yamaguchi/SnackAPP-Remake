@@ -60,11 +60,9 @@ def getSearchSnack(login_user,type,maker,keyword,country,order,offset,only_like,
     
     data = []
     for obj in queryset:
-        # Check if the account has liked this TorikoSnack
+        # Check if the account has liked this Snack
         liked = False if login_user is None else LikeModel.objects.filter(account_id=login_user.id, snack_id=obj.id).exists()
-        # Get the number of likes for this TorikoSnack
-        like_count = LikeModel.objects.filter(snack_id=obj.id).count()
-
+        
         data.append({
             'id': obj.id,
             'tid': obj.tid,
@@ -76,7 +74,7 @@ def getSearchSnack(login_user,type,maker,keyword,country,order,offset,only_like,
             'image': obj.image,
             'url': obj.url,
             'liked': liked,
-            'like_count': like_count,
+            'like_count': obj.like_count,
             'account':
                 {  
                 'id':str(obj.account.id),
