@@ -18,11 +18,8 @@ interface CustomCookies {
 export async function POST(req: NextRequest) {
     try {
         const { formData } = await req.json();
-        console.log(formData);
-        // console.log('Type of res:', typeof res);
-
         const data = await login(formData);
-        console.log('djangoResponse', data);
+        console.log('Login', data.account);
 
         if (data.error) {
             throw new Error('Failed to login');
@@ -59,8 +56,6 @@ export async function GET(req: NextRequest) {
             account,
             token
         };
-
-        console.log("GET",loginUser)
         return NextResponse.json(loginUser, { status: 200 });
     } catch (error: any) {
         console.error('Error while fetching login user info:', error.message);
@@ -71,11 +66,8 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
     try {
         const loginToken = req.cookies.get("loginToken")?.value;
-        console.log(loginToken)
         // Logout in Django
         const res = await logout(loginToken);
-        console.log(res)
-
         // Clear session if logout successful in Client
         if (res.error) {
             throw new Error('Failed to logout');

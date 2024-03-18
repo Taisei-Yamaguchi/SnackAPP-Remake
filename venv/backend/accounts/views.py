@@ -73,7 +73,6 @@ class LogoutAPIView(APIView):
     def post(self, request, *args, **kwargs):
         # get token
         token = request.auth
-        print (token)
         if token:
             # delete token
             token.delete()

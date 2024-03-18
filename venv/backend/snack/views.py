@@ -19,7 +19,6 @@ class SnackSearchAPIView(APIView):
         
         if request.user.is_authenticated:
             login_user = request.user
-        print(login_user)
         
         # query
         type = request.query_params.get('type', None)
@@ -27,7 +26,6 @@ class SnackSearchAPIView(APIView):
         keyword = request.query_params.get('keyword', None)
         order = request.query_params.get('order', None)
         country = request.query_params.get('country', None)
-        sort = request.query_params.get('sort', None)
         offset = request.query_params.get('offset',0)
         only_like = request.query_params.get("only_like",False)
         only_you_post = request.query_params.get("only_you_post",False)
@@ -40,7 +38,6 @@ class SnackSearchAPIView(APIView):
             keyword=keyword,
             order=order,
             country=country,
-            sort=sort,
             offset=offset,
             only_like=only_like,
             only_you_post=only_you_post,
@@ -57,7 +54,6 @@ class CreateSnackAPIView(APIView):
         data=request.data
         account = request.user
         
-        print(data)
         data["account"]= account.id
         
         serializer = SnackSerializer(data=data)

@@ -20,6 +20,7 @@ type Snack = {
     type: string;
     liked: boolean;
     like_count: number;
+    country: string;
     account: {id:number,username:string}|null
 };
 
@@ -33,10 +34,6 @@ const SnackItem: FC<Props> = ({ snack }) => {
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
 	
     const dispatch = useAppDispatch()
-
-    useEffect(()=>{
-        console.log(account,snack.account)
-    },[account,snack])
     
     const handleLike = async (snackId:number) => {
         try {
@@ -62,27 +59,59 @@ const SnackItem: FC<Props> = ({ snack }) => {
             <figure><img className="h-32" src={snack.image} alt={snack.name} /></figure>
             <div className="card-body">
                 <h2 className="card-title">
+                    {/* name */}
                     {snack.name}
+                    {/* delete action */}
+                    {account && snack.account && account.id===snack.account.id ?(
+                    <DeleteSnack snack_id={snack.id}/>
+                    ):(
+                        <></>
+                    )}
                 </h2>
                 <div className='flex justify-between'>
-                    <h3>{snack.type}</h3>
+                    {/* like toggle */}
+                    <button className="skeleton w-24 btn" onClick={()=>handleLike(snack.id)}>
+                        { snack.liked ?(<FaHeart/>):(<FaRegHeart/>)}
+                        <div className="badge">{snack.like_count}</div>
+                    </button>
+                    {/* type */}
+                    <strong>{snack.type}</strong>
+                    {/* url */}
                     <a className="text-xs link link-primary" href={snack.url}>more info</a>
                 </div>
-                <button className="skeleton w-24 btn" onClick={()=>handleLike(snack.id)}>
-                    { snack.liked ?(<FaHeart/>):(<FaRegHeart/>)}
-                    <div className="badge">{snack.like_count}</div>
-                </button>
                 
-                {/* delete action */}
-                {account && snack.account && account.id===snack.account.id ?(
-                <DeleteSnack snack_id={snack.id}/>
-                ):(
-                    <></>
-                )}
+                
                 <div className="card-actions justify-end">
-                    <div className="badge badge-outline">￥{snack.price}</div> 
+                    {/* country */}
+                    <div className="badge badge-outline">{snack.country}</div>
+                    {/* price */}
+                    <div className="badge badge-outline">
+                        {snack.country==="Canada"?(
+                            <>CA$</>
+                        ):(
+                            <>￥</>
+                        )}
+                        {snack.price >0 ? (
+                            <>{snack.price}</>
+                        ):(
+                            <>?</>
+                        )}
+                        
+                    </div> 
+                    {/* maker */}
                     <div className="badge badge-outline">Maker: {snack.maker}</div>
                 </div>
+                {/* account or toriko info */}
+                {snack.account&&(
+                    <div className="text-xs">
+                        Provided by: <strong> {snack.account.username}</strong>
+                    </div>
+                )}
+                {snack.tid && (
+                    <div className="text-xs">
+                        Provided by: <a href="https://sysbird.jp/toriko/" className="link link-primary"><strong> お菓子の虜</strong></a>
+                    </div>
+                )}
             </div>
             </div>
         </li>

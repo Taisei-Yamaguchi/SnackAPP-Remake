@@ -28,9 +28,9 @@ const PostSnack = ()=>{
 			.string()
 			.required("country is required !"),
 		price: yup
-			.number()
-			.positive("Price must be a positive number")
-			.required("Price is required !"),
+			.string() 
+			.matches(/^\d+(\.\d{1,2})?$/, "Price must be a valid number with up to two decimal places")  // 正規表現で小数点第二位までの数値をチェック
+			.required("Price is required!"),
 		url: yup
 			.string()
 			.url("URL must be in a valid format")
@@ -198,28 +198,35 @@ const PostSnack = ()=>{
 									</div>
 
 									<div className="flex">
+
 									{/* type */}
 									<div className="form-control">
-									<label className="label">
+										<label className="label">
 											<span className="label-text">Type</span>
 										</label>
-										<input 
-											id="type"
-											name="type"
-											type="text" 
-											value={formik.values.type} 
-											onChange={formik.handleChange} 
-											onBlur={formik.handleBlur}
-											placeholder="Type"
-											className={clsx(
-												"input input-bordered block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
-												{
-													"border-2 border-red-500 bg-red-100 text-red-800":
-													formik.touched.type && formik.errors.type,
-												}
-												)}
-												required
-										/>
+										<select 
+										id="type" 
+										name="type" 
+										value={formik.values.type} 
+										onChange={formik.handleChange} 
+										onBlur={formik.handleBlur}
+										className={clsx(
+											"input input-bordered block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+											{
+												"border-2 border-red-500 bg-red-100 text-red-800":
+												formik.touched.type && formik.errors.type,
+											}
+											)}
+											required
+										>
+											<option value="">Type</option>
+											<option value="snack">Snack</option>
+											<option value="chocolate">Chocolate</option>
+											<option value="cookie">Cookie</option>
+											<option value="senbei">Senbei</option>
+											<option value="candy">Candy,Gumi,Ramune etc</option>
+											<option value="other">Other</option>
+										</select>
 										{formik.errors.type && formik.touched.type && (
 											<p className="text-red-500 ml-1 my-3">
 												{formik.errors.type}
@@ -227,38 +234,49 @@ const PostSnack = ()=>{
 										)}
 									</div>
 
-									{/* country */}
-									<div className="form-control">
-										<label className="label">
-											<span className="label-text">Country</span>
-										</label>
-										<input 
-											id="country"
-											name="country"
-											type="text" 
-											value={formik.values.country} 
-											onChange={formik.handleChange} 
-											onBlur={formik.handleBlur}
-											placeholder="Country"
-											className={clsx(
-												"input input-bordered block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
-												{
-													"border-2 border-red-500 bg-red-100 text-red-800":
-													formik.touched.country && formik.errors.country,
-												}
-												)}
-												required
-										/>
-										{formik.errors.country && formik.touched.country && (
+								{/* country */}
+								<div className="form-control">
+									<label className="label">
+										<span className="label-text">Country</span>
+									</label>
+									<select
+									id="country"
+									name="country" 
+									value={formik.values.country} 
+									onChange={formik.handleChange} 
+									onBlur={formik.handleBlur}
+									className={clsx(
+										"input input-bordered block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+										{
+											"border-2 border-red-500 bg-red-100 text-red-800":
+											formik.touched.country && formik.errors.country,
+										}
+										)}
+										required
+									>
+										<option value="">Country</option>
+										<option value="Japan">Japan</option>
+										<option value="Canada">Canada</option>
+										<option value="Other">Other</option>
+									</select>
+
+									{formik.errors.country && formik.touched.country && (
 											<p className="text-red-500 ml-1 my-3">
 												{formik.errors.country}
 											</p>
 										)}
 									</div>
+
 									{/* price */}
 									<div className="form-control">
 										<label className="label">
-											<span className="label-text">Price</span>
+											<span className="label-text">Price
+											{formik.values.country==='Canada' ? (
+												<> (Ca$)</>
+											):(
+												<> (￥)</>
+											)}
+											</span>
 										</label>
 										<input 
 											id="price"
@@ -268,6 +286,7 @@ const PostSnack = ()=>{
 											onChange={formik.handleChange} 
 											onBlur={formik.handleBlur}
 											placeholder="Price"
+											step="0.01" 
 											className={clsx(
 												"input input-bordered block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
 												{
@@ -285,7 +304,7 @@ const PostSnack = ()=>{
 									</div>
 									</div>
 
-									<div className="flex justify-between">
+									<div className="flex flex-col justify-between">
 									{/* url */}
 									<div className="form-control">
 										<label className="label">
