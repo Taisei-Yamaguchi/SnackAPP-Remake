@@ -10,6 +10,11 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import AllowAny
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from .models import SnackModel
+from random import sample
+from .services.define_recommend_snack_logic import define_recommend_snack_logic
+from .repositries.get_snacks_by_rule import get_snacks_by_rule
+from .serializers import SnackSerializer
 
 class SnackSearchAPIView(APIView):
     permission_classes = [AllowAny]  # No matter token exist or not, it's possible to search snack.
@@ -76,3 +81,18 @@ class HideSnackAPIView(APIView):
             else: 
                 return Response({'error': 'Snack does not exist' }, status=status.HTTP_404_NOT_FOUND)
         return Response(response, status=status.HTTP_204_NO_CONTENT)
+    
+class RecommendSnackAPIView(APIView):
+    permission_classes = [AllowAny]  # No matter token exist or not, it's possible to search snack.
+
+    def get(self, request):
+        login_user = None
+        if request.user.is_authenticated:
+            login_user = request.user
+            
+        # define recommend snack logic
+        # "random_popularity", "type_you_like", "country_you_like", "maker_you_like"
+        get_snack_rule = define_recommend_snack_logic(login_user)
+        recommended_snacks = get_snacks_by_rule(get_snack_rule,login_user)
+        # print("recommended_snacks:",recommended_snacks)
+        return Response(recommended_snacks)
