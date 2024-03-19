@@ -12,7 +12,6 @@ export const snackRecommend = async (token: string | undefined | null) => {
         method: 'GET',
         headers: headers,
     });
-    const data = await response.json(); 
-    console.log(data)
+    const data = await response.json();
     return data;
 }

@@ -1,12 +1,6 @@
-type snackData ={
-    name:string,
-    maker:string,
-    type:string,
-    country:string,
-    price:number,
-    url: string | null,
-}
-export const snackCreate = async (snackData:snackData,token: string) => {
+import { SnackInputData } from "@/interfaces";
+
+export const snackCreate = async (snackData:SnackInputData,token: string) => {
     const response = await fetch(`http://localhost:8000/snack/create/`, {
         method: 'POST',
         headers: {

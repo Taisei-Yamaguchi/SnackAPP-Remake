@@ -24,6 +24,12 @@ class CreateAccountAPIView(APIView):
         
         return Response({'message': 'Account created successfully.'}, status=status.HTTP_201_CREATED)
 
+class GetAccountAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        accounts = Account.objects.all().values('id', 'username')
+        print(accounts)
+        return Response({'accounts':accounts}, status=status.HTTP_200_OK)
+
 
 class SignUpAPIView(APIView):
     def post(self, request, *args, **kwargs):

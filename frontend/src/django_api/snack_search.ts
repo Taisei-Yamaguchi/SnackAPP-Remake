@@ -6,7 +6,6 @@ export const snackSearch = async (query: string, token: string | undefined | nul
     // if token exist, add Authorization
     if (token) {
         headers["Authorization"] = `Token ${token}`;
-        console.log("Token")
     }
 
     const response = await fetch(`http://localhost:8000/snack/search/${query}`, {

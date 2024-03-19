@@ -10,6 +10,11 @@ const HomeHeader = () => {
 	//* Get login User from cookie
 	const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
+	const [rightMenuOpen, setRightMenuOpen] = useState(false);
+	
+	const toggleRightMenu = () => {
+		setRightMenuOpen(!rightMenuOpen);
+	};
 
 	return (
 		<header className="fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between border-b border-gray-200 bg-pink-500 p-2">
@@ -21,16 +26,50 @@ const HomeHeader = () => {
 			</div>
 			<PostSnack />
 			<div>
-			{account? (
-				<div>
-					{account.username}
-					<LogoutButton />
-				</div>
-			) : (
-				<div>
-					<button><a href="/login">Login</a></button>
-				</div>
-			)}
+
+			{account ? (
+				<>
+					<button
+						type="button"
+						className="badge badge-ghost"
+						onClick={toggleRightMenu}
+					>{account.username}</button>
+
+					<div
+						className={`${rightMenuOpen ? "" : "hidden"
+							} absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-white shadow-md`}
+						x-show="profileOpen"
+						x-transition="true"
+					>
+				
+					<div className="flex flex-col space-y-3 p-2">
+						<div className="text-sm transition hover:text-blue-600">{account.username}</div>
+					</div>
+				
+					<div className="p-2">
+						<div className="flex items-center space-x-2 transition hover:text-blue-600">
+							<svg
+								className="h-4 w-4"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth="2"
+									d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+								/>
+							</svg>
+							<LogoutButton />
+						</div>
+						</div>
+					</div>
+				</>
+				):(
+					<a href ='/login' className="badge badge-ghost">Login</a>
+				)}
 			</div>
 		</header>
 	);

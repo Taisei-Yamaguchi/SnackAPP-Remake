@@ -54,14 +54,18 @@ const SnackSearch = () => {
                 <div className=' w-full flex flex-wrap items-center'>
                     <label className="w-full input input-sm input-bordered flex items-center gap-2">
                         <input type="text" className="grow" placeholder="Keyword" value={keyword} onChange={e => setKeyword(e.target.value)} />
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
                     </label>
                     <label className="w-full input input-sm input-bordered flex items-center gap-2">
                         <input type="text" className="grow" placeholder="Maker" value={maker} onChange={e => setMaker(e.target.value)} />
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
                     </label>
 
-                    <select className="select select-bordered select-sm w-1/4 max-w-xs" value={order} onChange={e => setOrder(e.target.value)}>
+                    <select 
+                        className={`select select-bordered select-sm w-1/4 max-w-xs ${
+                            !order && 'text-gray-400' 
+                        }`}
+                        value={order} 
+                        onChange={e => setOrder(e.target.value)}
+                    >
 						<option value="">Order</option>
 						<option value="price_asc">Reasnable</option>
 						<option value="price_desc">Expensive</option>
@@ -69,13 +73,25 @@ const SnackSearch = () => {
 						<option value="random">Random</option>
 					</select>
 					
-					<select className="select select-bordered select-sm w-1/4 max-w-xs" value={country} onChange={e => setCountry(e.target.value)}>
+					<select 
+                        className={`select select-bordered select-sm w-1/4 max-w-xs ${
+                            !country && 'text-gray-400' 
+                        }`}
+                        value={country} 
+                        onChange={e => setCountry(e.target.value)}
+                    >
 						<option value="">Country</option>
 						<option value="Japan">Japan</option>
 						<option value="Canada">Canada</option>
 						<option value="Other">Other</option>
 					</select>
-					<select className="select select-bordered select-sm w-1/4 max-w-xs" value={type} onChange={e => setType(e.target.value)}>
+					<select 
+                        className={`select select-bordered select-sm w-1/4 max-w-xs ${
+                            !type && 'text-gray-400' 
+                        }`}
+                        value={type} 
+                        onChange={e => setType(e.target.value)}
+                    >
 						<option value="">Type</option>
 						<option value="snack">Snack</option>
 						<option value="chocolate">Chocolate</option>
@@ -94,11 +110,11 @@ const SnackSearch = () => {
                 {/* <PostSnack /> */}
                 
                 {/* snack you liked */}
-                <div className="form-control text-sm">
-                    <label className="cursor-pointer label">
+                <div className="form-control text-sm btn btn-xs btn-warning">
+                    <label className="cursor-pointer label w-full">
                     <input 
                             type="checkbox" 
-                            className="checkbox checkbox-warning checkbox-xs" 
+                            className="checkbox checkbox-warning checkbox-xs w-full" 
                             checked={onlyLike}
                             onChange={(e) => setOnlyLike(e.target.checked)}  
                         />
@@ -107,28 +123,28 @@ const SnackSearch = () => {
                 </div>
 
                 {/* snack you post */}
-                <div className="form-control text-sm">
-                    <label className="cursor-pointer label">
+                <div className="form-control text-sm btn btn-xs btn-info">
+                    <label className="cursor-pointer label w-full">
                     <input 
                             type="checkbox" 
-                            className="checkbox checkbox-info checkbox-xs" 
+                            className="checkbox checkbox-info checkbox-xs w-full" 
                             checked={onlyYouPost}
                             onChange={(e) => setOnlyYouPost(e.target.checked)}  
                         />
-                        <span className="label-text">Your Snacks</span>
+                        <span className="label-text">Yours</span>
                     </label>
                 </div>
 
                 {/* posted snacks */}
-                <div className="form-control text-sm">
-                    <label className="cursor-pointer label">
+                <div className="form-control text-sm btn btn-xs btn-secondary ">
+                    <label className="cursor-pointer label w-full">
                     <input 
                             type="checkbox" 
-                            className="checkbox checkbox-alert checkbox-xs" 
+                            className="checkbox checkbox-secondary checkbox-xs" 
                             checked={onlyUsersPost}
                             onChange={(e) => setOnlyUsersPost(e.target.checked)}  
                         />
-                        <span className="label-text">Only Post Snacks</span>
+                        <span className="label-text">Post Snacks</span>
                     </label>
                 </div>
             </div>

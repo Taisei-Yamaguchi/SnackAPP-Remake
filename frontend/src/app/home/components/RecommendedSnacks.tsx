@@ -2,36 +2,19 @@ import { snackRecommend } from "@/django_api/snack_recommend"
 import { useAppSelector } from "@/store"
 import { RootState } from "@/store";
 import { useEffect,useState } from "react";
-
-type Snack = {
-    account: {
-        id: number, 
-        username: string
-    } | null
-    country: string
-    tid: string
-    id: number
-    image: string 
-    like_count: number
-    maker: string
-    name: string
-    price: number 
-    type: string
-    url: string 
-}
+import { SnackData } from "@/interfaces";
 
 const RecommendedSnacks = () =>{
     const reloading = useAppSelector((state: RootState) => state.reloadSlice.reloading);
     const account = useAppSelector((state:RootState)=>state.loginUserSlice.account);
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token);
-    const [recommendSnacks,setRecommendSnacks] = useState<Snack[]|null>(null)
+    const [recommendSnacks,setRecommendSnacks] = useState<SnackData[]|null>(null)
 
     
     useEffect(()=>{
         const getRecommendSnacks = async () => {
             try {
 				const data= await snackRecommend(token);	
-                console.log(data)
                 setRecommendSnacks(data.items)
             } catch (error) {
                 console.error('Error fetching recommend snacks:', error);
@@ -41,8 +24,8 @@ const RecommendedSnacks = () =>{
     },[reloading])
 
     return(
-        <div className="fixed top-40 z-10 m-2 w-full flex flex-col items-center bg-white">
-        <strong>Recommendation</strong>
+        <div className="fixed top-40 z-10  w-full flex flex-col items-center bg-pink-100">
+        <strong>Recommendation 👇</strong>
         <div className="carousel w-full  ">
             {recommendSnacks && recommendSnacks.map((item, index) => (
                 <div id={`slide${index}`} className="carousel-item relative w-full flex justify-between" key={`recommend-${index}`}>

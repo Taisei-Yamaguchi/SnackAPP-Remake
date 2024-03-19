@@ -1,5 +1,6 @@
 "use server"
-export const signup= async (userData:{username:string,password:string})=>{
+import { UserData } from "@/interfaces";
+export const signup= async (userData:UserData)=>{
     const response = await fetch(`http://localhost:8000/accounts/signup/`, {
         method: 'POST',
         headers: {

@@ -5,7 +5,7 @@ from django.db.models import Case, When, F, DecimalField
 
 
 def getSearchSnack(login_user,type,maker,keyword,country,order,offset,only_like,only_you_post,only_users_post):
-    queryset = SnackModel.objects.all().filter(show=True)
+    queryset = SnackModel.objects.all().filter(show=True).order_by("-id")
     # filter
     if type:
         queryset = queryset.filter(type__icontains=type)
@@ -32,15 +32,12 @@ def getSearchSnack(login_user,type,maker,keyword,country,order,offset,only_like,
         queryset = queryset.exclude(price=0)
         queryset = queryset.annotate(edited_price=Case(When(country='Canada', then=F('price') * 100), default=F('price'), output_field=DecimalField()))
         queryset = queryset.order_by('-edited_price')
-    
-    
-    
     elif order == 'popularity':
         queryset = queryset.order_by('-like_count')
     elif order== 'random':
         queryset = queryset.order_by('?')
     else :
-        queryset = queryset.order_by('id')
+        queryset = queryset.order_by('-id')
         
     # only_ike
     if only_like and login_user is not None:
