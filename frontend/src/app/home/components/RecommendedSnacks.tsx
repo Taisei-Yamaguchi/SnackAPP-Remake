@@ -2,36 +2,19 @@ import { snackRecommend } from "@/django_api/snack_recommend"
 import { useAppSelector } from "@/store"
 import { RootState } from "@/store";
 import { useEffect,useState } from "react";
-
-type Snack = {
-    account: {
-        id: number, 
-        username: string
-    } | null
-    country: string
-    tid: string
-    id: number
-    image: string 
-    like_count: number
-    maker: string
-    name: string
-    price: number 
-    type: string
-    url: string 
-}
+import { SnackData } from "@/interfaces";
 
 const RecommendedSnacks = () =>{
     const reloading = useAppSelector((state: RootState) => state.reloadSlice.reloading);
     const account = useAppSelector((state:RootState)=>state.loginUserSlice.account);
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token);
-    const [recommendSnacks,setRecommendSnacks] = useState<Snack[]|null>(null)
+    const [recommendSnacks,setRecommendSnacks] = useState<SnackData[]|null>(null)
 
     
     useEffect(()=>{
         const getRecommendSnacks = async () => {
             try {
 				const data= await snackRecommend(token);	
-                console.log(data)
                 setRecommendSnacks(data.items)
             } catch (error) {
                 console.error('Error fetching recommend snacks:', error);

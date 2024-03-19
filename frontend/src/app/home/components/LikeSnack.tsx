@@ -6,24 +6,11 @@ import { useRouter } from "next/navigation";
 import { toggleLike } from "@/django_api/snack_like";
 import { FaHeart, FaRegHeart } from "react-icons/fa"
 import React, { FC } from 'react';
+import { SnackData } from "@/interfaces";
 
-type Snack = {
-    id: number;
-    tid: string;
-    name: string;
-    image: string;
-    url: string;
-    price: number;
-    maker: string;
-    type: string;
-    liked: boolean;
-    like_count: number;
-    country: string;
-    account: {id:number,username:string}|null
-};
 
 type Props = {
-    snack: Snack;
+    snack: SnackData;
 };
 
 const LikeSnack: FC<Props> =({snack}) =>{

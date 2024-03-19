@@ -134,6 +134,9 @@ const LoginForm = () => {
                         <label className="label">
                             <a href="/home" className="label-text-alt link link-hover">Just review without login</a>
                         </label>
+                        <label className="label">
+                            <a href="/signup" className="label-text-alt link link-hover">Signup</a>
+                        </label>
 									
 					</div>
 						<div className="form-control mt-6">

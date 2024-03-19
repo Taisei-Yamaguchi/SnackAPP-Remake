@@ -4,24 +4,10 @@ import { useAppSelector } from '@/store';
 import { RootState } from '@/store';
 import DeleteSnack from './DeleteSnack';
 import LikeSnack from './LikeSnack';
-
-type Snack = {
-    id: number;
-    tid: string;
-    name: string;
-    image: string;
-    url: string;
-    price: number;
-    maker: string;
-    type: string;
-    liked: boolean;
-    like_count: number;
-    country: string;
-    account: {id:number,username:string}|null
-};
+import { SnackData } from '@/interfaces';
 
 type Props = {
-    snack: Snack;
+    snack: SnackData;
 };
 
 const SnackItem: FC<Props> = ({ snack }) => {
