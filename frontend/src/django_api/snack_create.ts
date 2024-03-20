@@ -1,14 +1,36 @@
-import { SnackInputData } from "@/interfaces";
+import { SnackInputData } from "@/interfaces/index";
 
 export const snackCreate = async (snackData:SnackInputData,token: string) => {
-    const response = await fetch(`http://localhost:8000/snack/create/`, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Token ${token}` 
-        },
-        body: JSON.stringify(snackData)
-    });
+    console.log(snackData)
+    const formData = new FormData();
+    formData.append('name', snackData.name);
+    formData.append('maker', snackData.maker);
+    formData.append('type', snackData.type);
+    formData.append('country', snackData.country);
+    formData.append('price', String(snackData.price));
+    if(snackData.url){
+        formData.append('url', snackData.url); 
+    }
+    if(snackData.image){
+        formData.append('image', snackData.image); 
+    }
+    console.log(formData)
+    try{
+        const response = await fetch(`http://localhost:8000/snack/create/`, {
+            method: 'POST',
+            headers: {
+                "Authorization": `Token ${token}` 
+            },
+            body: formData
+        });
 
-    return response.json();
+        return response.json();
+    }catch (error) {
+		console.error(
+			"There has been a problem with your fetch operation: ",
+			error
+		);
+		throw error;
+	}
+    
 }

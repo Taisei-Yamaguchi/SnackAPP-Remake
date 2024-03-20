@@ -24,7 +24,7 @@ const RecommendedSnacks = () =>{
     },[reloading])
 
     return(
-        <div className="fixed top-40 z-10  w-full flex flex-col items-center bg-pink-100">
+        <div className="fixed top-40 z-10  w-full flex flex-col items-center bg-gradient-to-r from-pink-400 to-white">
         <strong>Recommendation 👇</strong>
         <div className="carousel w-full  ">
             {recommendSnacks && recommendSnacks.map((item, index) => (

@@ -52,3 +52,5 @@
   - Design
     - Tailwind 3.4.1 (daisyUI)
 ## References
+> 
+  - translator libraries?

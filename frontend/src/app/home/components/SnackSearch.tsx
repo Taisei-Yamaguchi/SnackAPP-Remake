@@ -49,7 +49,7 @@ const SnackSearch = () => {
     };
 
         return (
-        <div className="w-full fixed p-1 top-14 z-10 bg-pink-200 m-0 p-1 h-50 rounded flex justify-evenly border">
+        <div className="bg-gradient-to-r from-pink-400 to-white w-full fixed p-1 top-14 z-10  m-0 p-1 h-50 rounded flex justify-evenly border">
             <div className="w-3/4">
                 <div className=' w-full flex flex-wrap items-center'>
                     <label className="w-full input input-sm input-bordered flex items-center gap-2">

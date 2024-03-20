@@ -5,7 +5,7 @@ export type SnackInputData = {
     country:string,
     price:number,
     url: string | null,
-    // image: string | null,
+    image: File | null,
 }
 
 export type SnackData = {

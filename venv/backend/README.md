@@ -6,3 +6,6 @@
   - django-allauth
   - djangorestframework
   - django-cors-headers
+  - cloudinary
+  - python-dotenv
+  - django-cloudinary-storage

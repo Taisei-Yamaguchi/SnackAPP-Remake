@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 """
 Django settings for backend project.
@@ -46,6 +49,7 @@ INSTALLED_APPS = [
     # "allauth.account",
     'rest_framework',
     'rest_framework.authtoken',
+    'cloudinary',
     
     # created apps
     "snack.apps.SnackConfig",
@@ -95,8 +99,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "snack",
-        "USER": os.environ.get("DB_USER"),
-        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
         "HOST":'',
         "PORT":'',
     }
@@ -166,3 +170,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+# CLUDINARY
+CLOUDINARY_URL=os.getenv("CLOUDINARY_URL")
