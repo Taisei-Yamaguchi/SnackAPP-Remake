@@ -13,6 +13,8 @@ const PostSnack = ()=>{
     const [ isOpen, setIsOpen ] = useState(false);
 	const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
+	const [imageFieldKey, setImageFieldKey] = useState(Date.now());
+  
 
 	const formSchema = yup.object().shape({
 		name: yup
@@ -35,24 +37,34 @@ const PostSnack = ()=>{
 			.string()
 			.url("URL must be in a valid format")
 			.nullable(),
+		image: yup
+			.mixed()
+			.test('fileType', 'Only image files are allowed', (value) => {
+				if (!value) return true; 
+				const supportedTypes = ['image/jpg','image/jpeg', 'image/png', 'image/gif', 'image/svg+xml']; 
+				return !!(value && (value as File).type && supportedTypes.includes((value as File).type));
+			})
+			.nullable()
 		});
 
-	type FormData = {
+	type FormType = {
 		name: string;
 		maker: string;
 		type: string;
 		country: string;
 		price: number;
 		url:string;
+		image: File | null
 	};
 	
-	const FORM_DATA: FormData = {
+	const FORM_DATA: FormType = {
 		name: "",
 		maker: "",
 		type: "",
 		country: "",
 		price: 1,
-		url: ""
+		url: "",
+		image: null
 	};
 
 	const [ toast, setToast ] = useState({
@@ -60,18 +72,20 @@ const PostSnack = ()=>{
         type: "",
     });
 
-    const formik = useFormik<FormData>({
+    const formik = useFormik<FormType>({
         initialValues: FORM_DATA,
         validationSchema: formSchema,
-        onSubmit: async (formData) => {
+        onSubmit: async (formData:FormType) => {
+			console.log(formData)
+			
             try {
-                console.log(formData)
 				// Exclude empty url and price
 				const filteredFormData = {
 					...formData,
 					url: formData.url !== '' ? formData.url : null,
 				};
 				if(account&&token){
+					console.log("formData",formData)
 					snackCreate(filteredFormData,token)
 					setIsOpen(false)
 				}else{
@@ -106,7 +120,7 @@ const PostSnack = ()=>{
         <>
             {/* Open modal button */}
 			<div className='flex justify-center'>
-				<button className="bg-slate-600 p-2 rounded text-white" type="button" onClick={openModal}>
+				<button className="bg-slate-600 p-2 rounded text-white btn btn-secondary" type="button" onClick={openModal}>
 					<p>Post New Snack</p>
 				</button>
 			</div>
@@ -135,7 +149,7 @@ const PostSnack = ()=>{
 						<div className="w-full  h-full">
 							<h2 className='text-xl '>Post New Snack</h2>
 							<div className="card shrink-0 w-full shadow-2xl bg-base-100">
-								<form className="card-body  w-full" onSubmit={formik.handleSubmit}>
+								<form className="card-body  w-full" onSubmit={formik.handleSubmit} encType="multipart/form-data">
 
 								<div className="flex ">
 									{/* name */}
@@ -337,8 +351,28 @@ const PostSnack = ()=>{
 										<label className="label">
 											<span className="label-text">Image</span>
 										</label>
-									<input type="file"/>
+										<input
+											key={imageFieldKey}
+											id="image"
+											type="file"
+											name="image"
+											className={clsx(
+												"input input-bordered block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pl-2",
+												{
+													"border-2 border-red-500 bg-red-100 text-red-800":
+													formik.touched.price && formik.errors.price,
+												}
+												)}
+											onChange={(event) => {
+											return formik.setFieldValue("image", event.target.files![0]);
+											}}
+										/>
 									</div>
+									{formik.errors.image && formik.touched.image && (
+											<p className="text-red-500 ml-1 my-3">
+												{formik.errors.image}
+											</p>
+										)}
 									</div>
 
 									<div className="form-control mt-6">

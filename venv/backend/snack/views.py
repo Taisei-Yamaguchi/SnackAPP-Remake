@@ -16,6 +16,9 @@ from .services.define_recommend_snack_logic import define_recommend_snack_logic
 from .repositries.get_snacks_by_rule import get_snacks_by_rule
 from .serializers import SnackSerializer
 
+import cloudinary
+import cloudinary.uploader
+
 class SnackSearchAPIView(APIView):
     permission_classes = [AllowAny]  # No matter token exist or not, it's possible to search snack.
 
@@ -56,17 +59,50 @@ class CreateSnackAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
-        data=request.data
+        name = request.data.get('name')
+        maker = request.data.get('maker')
+        type = request.data.get('type')
+        country = request.data.get('country')
+        price = request.data.get('price')
+        url = request.data.get('url', None)
         account = request.user
-        
-        data["account"]= account.id
-        
-        serializer = SnackSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        image_file = request.FILES.get('image', None)
+        # upload image and get 'url', Cloudinary
+        if image_file:
+            result = cloudinary.uploader.upload(
+                image_file,
+                folder="snack_images"
+            )
+            image_url = result['secure_url']
+        else:
+            image_url = None
+            
+        snack = SnackModel.objects.create(
+            name=name,
+            maker=maker,
+            type=type,
+            country=country,
+            price=price,
+            url=url,
+            account=account,
+            image=image_url 
+        )
+        
+        response_data = {
+            'id': snack.id,
+            'tid':snack.tid,
+            'name': snack.name,
+            'maker': snack.maker,
+            'type': snack.type,
+            'country': snack.country,
+            'price': snack.price,
+            'url': snack.url,
+            'image':snack.image,
+            'account': snack.account.id, 
+        }
+        return Response(response_data, status=status.HTTP_201_CREATED)
+        
 
 class HideSnackAPIView(APIView):
     authentication_classes = [TokenAuthentication]

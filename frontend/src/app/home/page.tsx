@@ -34,13 +34,13 @@ export default function Home() {
     }, []); 
 
 	return (
-		<div className="bg-pink-100 h-screen">
-			<div className="bg-pink-100">
+		<div className=" h-screen">
+			<div className="bg-gradient-to-r from-purple-500 to-pink-500">
 				<HomeHeader />
 				<SnackSearch />
 				<RecommendedSnacks />
 			</div>
-			<div className="mt-64 pt-20 overflow-y-auto flex-grow bg-pink-50">
+			<div className="mt-96 overflow-y-auto flex-grow ">
 				<SnackList />
 			</div>
 		</div>
