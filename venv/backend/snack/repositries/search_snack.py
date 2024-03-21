@@ -2,20 +2,30 @@ from ..models import SnackModel
 from like.models import LikeModel
 from accounts.models import Account
 from django.db.models import Case, When, F, DecimalField
-
+from translate import Translator
 
 def getSearchSnack(login_user,type,maker,keyword,country,order,offset,only_like,only_you_post,only_users_post):
     queryset = SnackModel.objects.all().filter(show=True).order_by("-id")
+    translator = Translator(to_lang="ja")
+    
+    translated_keyword = translator.translate(keyword) if keyword else None
+    translated_maker = translator.translate(maker) if maker else None
+
+
     # filter
     if type:
         queryset = queryset.filter(type__icontains=type)
     if maker:
-        queryset = queryset.filter(maker__icontains=maker)
+        queryset = queryset.filter(maker__icontains=maker) | \
+        queryset.filter(maker__icontains=translated_maker) 
     if keyword:
-        queryset = queryset.filter(name__icontains=keyword) | \
-        queryset.filter(type__icontains=keyword) | \
-        queryset.filter(maker__icontains=keyword)
-            
+        queryset = queryset.filter(name__icontains=translated_keyword) | \
+        queryset.filter(type__icontains=translated_keyword) | \
+        queryset.filter(maker__icontains=translated_keyword) | \
+        queryset.filter(name__icontains=keyword) | \
+        queryset.filter(maker__icontains=keyword) | \
+        queryset.filter(type__icontains=keyword) 
+                
     if country == 'Japan':
         queryset = queryset.filter(country="Japan")
     elif country == 'Canada':
