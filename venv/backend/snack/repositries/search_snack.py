@@ -10,8 +10,7 @@ def getSearchSnack(login_user,type,maker,keyword,country,order,offset,only_like,
     
     translated_keyword = translator.translate(keyword) if keyword else None
     translated_maker = translator.translate(maker) if maker else None
-
-
+    
     # filter
     if type:
         queryset = queryset.filter(type__icontains=type)
