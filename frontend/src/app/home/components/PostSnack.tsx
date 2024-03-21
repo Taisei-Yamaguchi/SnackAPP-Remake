@@ -14,11 +14,11 @@ const PostSnack = ()=>{
 	const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
 	const [imageFieldKey, setImageFieldKey] = useState(Date.now());
-  
 
 	const formSchema = yup.object().shape({
 		name: yup
 			.string()
+			.max(50, "Name must be at most 50 characters long")
 			.required("name is required!"),
 		maker: yup
 			.string()
