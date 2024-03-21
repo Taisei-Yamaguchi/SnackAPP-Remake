@@ -14,6 +14,7 @@ import { UserData } from '@/interfaces';
 const formSchema = yup.object().shape({
     username: yup
         .string()
+        .matches(/^\S*$/, 'Username cannot contain spaces') 
         .required("username is required!"),
     password: yup
         .string()

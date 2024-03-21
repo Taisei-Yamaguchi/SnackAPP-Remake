@@ -1,26 +1,34 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { RootState, useAppDispatch } from '@/store';
 import { setSnackResult } from '@/store/slices/snackResult.slice';
 import { useAppSelector } from '@/store';
 import { snackSearch } from '@/django_api/snack_search';
 import { FaHeart } from 'react-icons/fa';
+import { setTotalPages } from '@/store/slices/snackResult.slice';
 
-const SnackSearch = () => {
+type Props = {
+    page: number;
+};
+const SnackSearch:FC<Props> = ({page}) => {
     const dispatch = useAppDispatch();
     const reloading = useAppSelector((state: RootState) => state.reloadSlice.reloading);
     const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
-
+    // const [searchPage,setSearchPage]= useState(page)
     const [keyword, setKeyword] = useState('');
     const [maker, setMaker] = useState('');
     const [order, setOrder] = useState('');
-    const [sort, setSort] = useState('');
     const [type, setType] = useState('');
     const [country, setCountry] = useState('');
+
     const [onlyLike,setOnlyLike] = useState(false);
     const [onlyYouPost,setOnlyYouPost] = useState(false)
     const [onlyUsersPost,setOnlyUsersPost] = useState(false);
+
+    // useEffect(()=>{
+    //     setSearchPage(1)
+    // },[keyword,maker,order,type,country,onlyLike,onlyUsersPost,onlyYouPost])
 
     useEffect(() => {
         handleSearch();
@@ -30,19 +38,21 @@ const SnackSearch = () => {
         const keywordParam = keyword !== '' ? `keyword=${keyword}` : '';
         const makerParam = maker !== '' ? `maker=${maker}` : '';
         const orderParam = order !== '' ? `order=${order}` : '';
-        const sortParam = sort !== '' ? `sort=${sort}` : '';
         const typeParam = type !== '' ? `type=${type}` : '';
         const countryParam = country !== '' ? `country=${country}` : '';
         const onlyLikeParam = onlyLike ? `only_like=${onlyLike}`:'';
         const onlyYouPostParam = onlyYouPost ? `only_you_post=${onlyYouPost}`:'';
         const onlyUsersPostParam = onlyUsersPost ? `only_users_post=${onlyUsersPost}`:'';
+        const pageParam = page ? `page=${page}`:'';
         
-        const queryParams = [keywordParam, makerParam, orderParam, sortParam, typeParam, countryParam,onlyLikeParam,onlyYouPostParam,onlyUsersPostParam].filter(param => param !== '').join('&');
+        const queryParams = [keywordParam, makerParam, orderParam, typeParam, countryParam,onlyLikeParam,onlyYouPostParam,onlyUsersPostParam,pageParam].filter(param => param !== '').join('&');
         const query = queryParams ? `?${queryParams}` : '';
         // API request
         try {
             const data = await snackSearch(query,token);
-            dispatch(setSnackResult(data));
+            dispatch(setSnackResult(data.result));
+            dispatch(setTotalPages(data.total_pages));
+            console.log(data)
         } catch (error) {
             console.error('Error fetching data:', error);
         } 

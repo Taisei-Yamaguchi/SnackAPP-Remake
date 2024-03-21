@@ -4,14 +4,19 @@ import SnackList from "./components/SnackList";
 import HomeHeader from "./components/HomeHeader";
 import RecommendedSnacks from "./components/RecommendedSnacks";
 
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useAppDispatch } from "@/store";
 import { setAccount } from "@/store/slices/loginUser.slice";
 import { setToken } from "@/store/slices/loginUser.slice";
-
+import { setReloading } from "@/store/slices/reload.slice";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export default function Home() {
 	const dispatch=useAppDispatch()
+	const totalPages = useSelector((state: RootState) => state.snackResult.totalPages);
+	const [currentPage, setCurrentPage] = useState(1); 
+
 	useEffect(() => {
         const fetchLoginUserFromCookie = async () => {
             try {
@@ -33,15 +38,52 @@ export default function Home() {
         fetchLoginUserFromCookie();
     }, []); 
 
+	useEffect(()=>{
+		setCurrentPage(1)
+	},[totalPages])
+
+	const handlePageChange = async (pageNumber:number) => {
+		if (pageNumber <= 0) {
+			return; 
+		}
+
+		if (pageNumber > totalPages) {
+			return; 
+		}
+		dispatch(setReloading(true));
+		await setCurrentPage(pageNumber);
+		dispatch(setReloading(false));
+	};
+
 	return (
 		<div className=" h-screen">
 			<div className="bg-gradient-to-r from-purple-500 to-pink-500">
 				<HomeHeader />
-				<SnackSearch />
+				<SnackSearch page={currentPage}/>
 				<RecommendedSnacks />
 			</div>
-			<div className="mt-96 overflow-y-auto flex-grow ">
-				<SnackList />
+			<div className="mt-96 overflow-y-auto flex-grow flex flex-col items-center">
+				<div className="join">
+                    <button className="join-item btn" onClick={() => handlePageChange(currentPage - 1)}>«</button>
+                    <select className="join-item btn" value={currentPage} onChange={(e) => handlePageChange(Number(e.target.value))}>
+						{Array.from({length: totalPages}, (_, i) => i + 1).map(page => (
+							<option key={page} value={page}>Page {page}</option>
+						))}
+					</select>
+					<button className="join-item btn" onClick={() => handlePageChange(currentPage + 1)}>»</button>
+                </div>
+
+				<SnackList/>
+
+				<div className="join">
+                    <button className="join-item btn" onClick={() => handlePageChange(currentPage - 1)}>«</button>
+                    <select className="join-item btn" value={currentPage} onChange={(e) => handlePageChange(Number(e.target.value))}>
+						{Array.from({length: totalPages}, (_, i) => i + 1).map(page => (
+							<option key={page} value={page}>Page {page}</option>
+						))}
+					</select>
+					<button className="join-item btn" onClick={() => handlePageChange(currentPage + 1)}>»</button>
+                </div>
 			</div>
 		</div>
 	);

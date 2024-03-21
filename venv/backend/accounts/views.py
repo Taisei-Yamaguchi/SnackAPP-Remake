@@ -51,7 +51,7 @@ class SignUpAPIView(APIView):
         if user is not None:
             login(request, user)
             token, created = Token.objects.get_or_create(user=user)
-            return Response({'account': {'id': account.id, 'username': account.username}, 'token': token.key}, status=status.HTTP_201_CREATED)
+            return Response({'account': {'id': account.id, 'username': account.username, 'language':account.language}, 'token': token.key}, status=status.HTTP_201_CREATED)
         else:
             return Response({'error': 'Failed to authenticate the new user.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -68,7 +68,7 @@ class LoginAPIView(APIView):
             account = Account.objects.get(username=username)
             login(request, user)
             token, created = Token.objects.get_or_create(user=user)
-            return Response({'account':{'id':account.id,'username':account.username},'token': token.key}, status=status.HTTP_200_OK)
+            return Response({'account':{'id':account.id,'username':account.username,'language':account.language},'token': token.key}, status=status.HTTP_200_OK)
         else:
             # when failed, return error
             return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
