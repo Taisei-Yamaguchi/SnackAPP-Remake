@@ -24,9 +24,11 @@ class SnackSearchAPIView(APIView):
 
     def get(self,request):
         login_user = None
+        language= "ja"
         
         if request.user.is_authenticated:
             login_user = request.user
+            language= login_user.language
         
         # query
         type = request.query_params.get('type', None)
@@ -34,10 +36,12 @@ class SnackSearchAPIView(APIView):
         keyword = request.query_params.get('keyword', None)
         order = request.query_params.get('order', None)
         country = request.query_params.get('country', None)
-        offset = request.query_params.get('offset',0)
+        page = request.query_params.get('page',1)
         only_like = request.query_params.get("only_like",False)
         only_you_post = request.query_params.get("only_you_post",False)
         only_users_post = request.query_params.get("only_users_post",False)
+        
+        offset = max((int(page) - 1) * 10, 0)
         
         data = getSearchSnack(
             login_user=login_user,
@@ -50,6 +54,7 @@ class SnackSearchAPIView(APIView):
             only_like=only_like,
             only_you_post=only_you_post,
             only_users_post=only_users_post,
+            language=language
         )
         
         return Response(data)

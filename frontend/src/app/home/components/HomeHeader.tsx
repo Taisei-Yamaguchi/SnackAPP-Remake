@@ -16,6 +16,11 @@ const HomeHeader = () => {
 		setRightMenuOpen(!rightMenuOpen);
 	};
 
+	useEffect(()=>{
+		console.log(account)
+	},[account])
+
+
 	return (
 		<header className="bg-gradient-to-r from-red-500 to-pink-500 fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between p-2">
 			{/* left menu */}
@@ -49,6 +54,9 @@ const HomeHeader = () => {
 					<div className="flex flex-col space-y-3 p-2">
 						<div className="text-sm transition hover:text-blue-600">{account.username}</div>
 					</div>
+					{/* <div className="flex flex-col space-y-3 p-2">
+						<div className="text-sm transition hover:text-blue-600">{account.language}</div>
+					</div> */}
 				
 					<div className="p-2">
 						<div className="flex items-center space-x-2 transition hover:text-blue-600">

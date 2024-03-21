@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { act } from 'react-dom/test-utils';
 
-type Account = {id: number, username: string}
+type Account = {id: number, username: string, language:string}
 type Token =string
 
 export type LoginUserState = {
