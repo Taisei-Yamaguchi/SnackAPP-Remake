@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'cloudinary',
+    'translate',
     
     # created apps
     "snack.apps.SnackConfig",

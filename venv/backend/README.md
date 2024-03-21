@@ -9,3 +9,4 @@
   - cloudinary
   - python-dotenv
   - django-cloudinary-storage
+  - translate
