@@ -9,9 +9,9 @@
 ## User stories
 >
    - Authenticate
-    - Users can login.
-    - Users can logout. (require auth)
-    - Users can signup.
+     - Users can login.
+     - Users can logout. (require auth)
+     - Users can signup.
   - Search Snacks
     - Users can search snacks with 'filter' and 'order' query
     - if users loggedin, they can use "liked" search and "Your post" search. (require auth)
