@@ -63,6 +63,7 @@ const SignupForm = () => {
         initialValues: FORM_DATA,
         validationSchema: formSchema,
         onSubmit: async (formData) => {
+            setToast({  message: "Signup processing", type: 'load' });
             if (formData.password !== formData.confirm_password) {
                 setToast({ message: "Passwords do not match", type: "error" });
                 return;
@@ -105,7 +106,7 @@ const SignupForm = () => {
                 setToast({ message: data.message, type: "success" });
                 setTimeout(() => {
                     router.push('/home');
-                }, 500)
+                }, 100)
             }
             setTimeout(() => setToast({ message: "", type: "" }), 200);
             formik.resetForm();
@@ -129,14 +130,21 @@ const SignupForm = () => {
     return (
         <div className='flex flex-col items-center justify-center h-screen'>
             {toast.message && (
-            <div className={
-                clsx(`fixed z-[100] top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 `,
-                {
-                "bg-red-500": toast.type === "error",
-                "bg-green-500": toast.type === "success",
-                }
-            )}>{toast.message}
-            </div>)}
+			<div className={
+				clsx(`fixed z-[100] top-5 right-5 w-fit text-white text-lg px-5 py-3 rounded-md mb-5 `,
+				    {
+					    "bg-red-500": toast.type === "error",
+						"bg-green-500": toast.type === "load",
+					}
+				)}>
+                    {toast.type==="load"?(
+                        <>{toast.message}
+                        <span className="loading loading-dots loading-lg"></span>
+                        </>
+                    ):(
+                    <>{toast.message}</>
+                    )}
+			</div>)}
 
             <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                 <h1 className='self-center text-xl'>SignUp</h1>

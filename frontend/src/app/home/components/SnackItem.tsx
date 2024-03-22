@@ -16,7 +16,7 @@ const SnackItem: FC<Props> = ({ snack }) => {
     return (
         
         <li>
-            <div className="card w-96 bg-base-100 shadow-xl m-1">
+            <div className="card w-96 bg-base-100 shadow-xl m-1 z-0">
             <figure><img className="h-32" src={snack.image} alt={snack.name} /></figure>
             <div className="card-body">
                 <h2 className="card-title">

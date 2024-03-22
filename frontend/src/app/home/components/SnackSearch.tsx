@@ -6,6 +6,7 @@ import { useAppSelector } from '@/store';
 import { snackSearch } from '@/django_api/snack_search';
 import { FaHeart } from 'react-icons/fa';
 import { setTotalPages } from '@/store/slices/snackResult.slice';
+import { setSearchLoad } from '@/store/slices/reload.slice';
 
 type Props = {
     page: number;
@@ -43,17 +44,20 @@ const SnackSearch:FC<Props> = ({page}) => {
         const query = queryParams ? `?${queryParams}` : '';
         // API request
         try {
+            dispatch(setSearchLoad(true))
             const data = await snackSearch(query,token);
             dispatch(setSnackResult(data.result));
             dispatch(setTotalPages(data.total_pages));
         } catch (error) {
             console.error('Error fetching data:', error);
-        } 
+        } finally{
+            dispatch(setSearchLoad(false))
+        }
     };
 
         return (
-        <div className="bg-gradient-to-r from-pink-400 to-white w-full fixed p-1 top-14 z-10  m-0 p-1 h-50 rounded flex justify-evenly border">
-            <div className="w-3/4">
+        <div className="bg-gradient-to-r from-pink-400 to-white w-full fixed p-1 top-14 z-20  m-0 p-1 h-50 rounded flex justify-evenly border max-md:flex-col">
+            <div className="w-3/4 max-md:w-full">
                 <div className=' w-full flex flex-wrap items-center'>
                     <label className="w-full input input-sm input-bordered flex items-center gap-2">
                         <input type="text" className="grow" placeholder="Keyword" value={keyword} onChange={e => setKeyword(e.target.value)} />
@@ -63,7 +67,7 @@ const SnackSearch:FC<Props> = ({page}) => {
                     </label>
 
                     <select 
-                        className={`select select-bordered select-sm w-1/4 max-w-xs ${
+                        className={`select select-bordered select-sm w-1/4 max-md:w-1/3 max-w-xs ${
                             !order && 'text-gray-400' 
                         }`}
                         value={order} 
@@ -77,7 +81,7 @@ const SnackSearch:FC<Props> = ({page}) => {
 					</select>
 					
 					<select 
-                        className={`select select-bordered select-sm w-1/4 max-w-xs ${
+                        className={`select select-bordered select-sm w-1/4 max-md:w-1/3 max-w-xs ${
                             !country && 'text-gray-400' 
                         }`}
                         value={country} 
@@ -89,7 +93,7 @@ const SnackSearch:FC<Props> = ({page}) => {
 						<option value="Other">Other</option>
 					</select>
 					<select 
-                        className={`select select-bordered select-sm w-1/4 max-w-xs ${
+                        className={`select select-bordered select-sm w-1/4 max-md:w-1/3 max-w-xs ${
                             !type && 'text-gray-400' 
                         }`}
                         value={type} 
@@ -109,7 +113,7 @@ const SnackSearch:FC<Props> = ({page}) => {
                     </button>
                 </div>
             </div>
-            <div className="w-1/3">
+            <div className="w-1/3 max-md:flex max-md:justify-between max-md:justify-items-center ">
                 {/* <PostSnack /> */}
                 
                 {/* snack you liked */}
