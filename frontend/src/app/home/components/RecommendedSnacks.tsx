@@ -28,7 +28,7 @@ const RecommendedSnacks = () =>{
         <strong>Recommendation 👇</strong>
         <div className="carousel w-full  ">
             {recommendSnacks && recommendSnacks.map((item, index) => (
-                <div id={`slide${index}`} className="carousel-item relative w-full flex justify-between" key={`recommend-${index}`}>
+                <div id={`slide${index}`} className="carousel-item relative w-full flex max-md:justify-between" key={`recommend-${index}`}>
                     <img src={item.image} className="h-36 ml-20 max-md:ml-10 max-md:h-40 max-md:w-40" alt={item.name}/>
                     <div className="flex flex-col items-center mr-20 max-md:mr-10 ">
                         <strong>{item.name}</strong>
