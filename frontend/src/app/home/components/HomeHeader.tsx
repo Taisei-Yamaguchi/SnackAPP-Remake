@@ -19,10 +19,9 @@ const HomeHeader = () => {
 		<header className="bg-gradient-to-r from-red-500 to-pink-500 fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between p-2">
 			{/* left menu */}
 			<div className="flex items-center space-x-2">
-				<button type="button" className="text-3xl asideOpen">
-					<i className="bx bx-menu"></i>
+				<button type="button" className="text-base asideOpen">
+                    <a href="/home" className="font-bold text-white">SnackApp</a>
 				</button>
-				<div className="font-bold text-white">SnackApp</div>
 			</div>
 
 			{/* center menu */}
@@ -36,7 +35,9 @@ const HomeHeader = () => {
 						type="button"
 						className="badge badge-ghost"
 						onClick={toggleRightMenu}
-					>{account.username}</button>
+					>
+					<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+					</button>
 
 					<div
 						className={`${rightMenuOpen ? "" : "hidden"
@@ -45,7 +46,7 @@ const HomeHeader = () => {
 						x-transition="true"
 					>
 				
-					<div className="flex flex-col space-y-3 p-2">
+					<div className="flex flex-col space-y-3 p-1">
 						<div className="text-sm transition hover:text-blue-600">{account.username}</div>
 					</div>
 					{/* <div className="flex flex-col space-y-3 p-2">

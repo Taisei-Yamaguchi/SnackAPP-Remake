@@ -7,9 +7,12 @@ import { useFormik } from "formik";
 import * as yup from 'yup';
 import clsx from 'clsx';
 import { snackCreate } from "@/django_api/snack_create";
+import { useAppDispatch } from "@/store";
+import { setReloading } from "@/store/slices/reload.slice";
 
 const PostSnack = ()=>{
 	const router= useRouter()
+	const dispatch = useAppDispatch()
     const [ isOpen, setIsOpen ] = useState(false);
 	const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
@@ -78,14 +81,20 @@ const PostSnack = ()=>{
         onSubmit: async (formData:FormType) => {
 			
             try {
+				dispatch(setReloading(true))
 				// Exclude empty url and price
 				const filteredFormData = {
 					...formData,
 					url: formData.url !== '' ? formData.url : null,
 				};
 				if(account&&token){
-					snackCreate(filteredFormData,token)
+					const data = await snackCreate(filteredFormData,token)
 					setIsOpen(false)
+					if (data.error) {
+						setToast({  message: "Failed to post snack", type: 'error' });
+					} else {
+						setToast({  message: "Succeeded to post snack", type: 'success' });
+					}
 				}else{
 					router.push('/login')
 				}
@@ -94,7 +103,9 @@ const PostSnack = ()=>{
                 // error
                 console.error('Post error:', error);
                 setToast({ message: "Failed to post snack", type: "error" });
-            }
+            } finally {
+				dispatch(setReloading(false))
+			}
             },
         });
 	
@@ -118,7 +129,7 @@ const PostSnack = ()=>{
         <>
             {/* Open modal button */}
 			<div className='flex justify-center'>
-				<button className="bg-slate-600 p-2 rounded text-white btn btn-secondary" type="button" onClick={openModal}>
+				<button className="bg-slate-600 p-2 rounded text-white btn btn-secondary text-base w-30 h-10" type="button" onClick={openModal}>
 					<p>Post New Snack</p>
 				</button>
 			</div>
@@ -127,13 +138,7 @@ const PostSnack = ()=>{
 			{isOpen && (
 				<div className="z-50 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-blue-100 bg-opacity-50 transform scale-100 transition-transform duration-300 border-radius">
 					<div className="bg-white p-12 w-full overflow-y-auto">
-						{/* Close modal button */}
-						<button className="focus:outline-none" type="button" onClick={closeModal}>
-							{/* Hero icon - close button */}
-							<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-							</svg>
-						</button>
+						
 						{/* Modal content */}
 						{toast.message && (
 						<div className={
@@ -144,12 +149,22 @@ const PostSnack = ()=>{
 							}
 						)}>{toast.message}
 						</div>)}
-						<div className="w-full  h-full">
-							<h2 className='text-xl '>Post New Snack</h2>
-							<div className="card shrink-0 w-full shadow-2xl bg-base-100">
-								<form className="card-body  w-full" onSubmit={formik.handleSubmit} encType="multipart/form-data">
+						<div className="w-full  h-screen">
+							<div className="flex justify-between">
+								<h2 className='text-xl '>Post New Snack</h2>
 
-								<div className="flex ">
+								{/* Close modal button */}
+								<button className="focus:outline-none" type="button" onClick={closeModal}>
+									{/* Hero icon - close button */}
+									<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+									</svg>
+								</button>
+							</div>
+							<div className="card shrink-0 w-full shadow-2xl bg-base-100 overflow-y-auto h-screen ">
+								<form className="card-body  w-full " onSubmit={formik.handleSubmit} encType="multipart/form-data">
+
+								<div className="flex max-sm:flex-col">
 									{/* name */}
 									<div className="form-control">
 										<label className="label">
@@ -209,8 +224,7 @@ const PostSnack = ()=>{
 									</div>
 									</div>
 
-									<div className="flex">
-
+									<div className="flex max-sm:flex-col">
 									{/* type */}
 									<div className="form-control">
 										<label className="label">

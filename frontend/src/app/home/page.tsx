@@ -56,33 +56,38 @@ export default function Home() {
 	};
 
 	return (
-		<div className=" h-screen">
-			<div className="bg-gradient-to-r from-purple-500 to-pink-500">
+		<div className=" h-screen bg-white">
+			<div className="bg-gradient-to-r from-purple-500 to-pink-500 ">
 				<HomeHeader />
 				<SnackSearch page={currentPage}/>
-				<RecommendedSnacks />
 			</div>
-			<div className="mt-96 overflow-y-auto flex-grow flex flex-col items-center">
-				<div className="join">
-                    <button className="join-item btn" onClick={() => handlePageChange(currentPage - 1)}>«</button>
-                    <select className="join-item btn" value={currentPage} onChange={(e) => handlePageChange(Number(e.target.value))}>
+			<div className="mt-96 max-md:mt-60  h-screen flex-grow flex flex-col items-center ">
+				{/* recommend */}
+				<RecommendedSnacks />
+
+				{/* pagination */}
+				<div className="join m-2">
+                    <button className="join-item btn btn-sm" onClick={() => handlePageChange(currentPage - 1)}>«</button>
+                    <select className="join-item btn btn-sm" value={currentPage} onChange={(e) => handlePageChange(Number(e.target.value))}>
 						{Array.from({length: totalPages}, (_, i) => i + 1).map(page => (
 							<option key={page} value={page}>Page {page}</option>
 						))}
 					</select>
-					<button className="join-item btn" onClick={() => handlePageChange(currentPage + 1)}>»</button>
+					<button className="join-item btn btn-sm" onClick={() => handlePageChange(currentPage + 1)}>»</button>
                 </div>
-
+				
+				{/* result snack search */}
 				<SnackList/>
 
-				<div className="join">
-                    <button className="join-item btn" onClick={() => handlePageChange(currentPage - 1)}>«</button>
-                    <select className="join-item btn" value={currentPage} onChange={(e) => handlePageChange(Number(e.target.value))}>
+				{/* pagination */}
+				<div className="join m-2">
+                    <button className="join-item btn btn-sm" onClick={() => handlePageChange(currentPage - 1)}>«</button>
+                    <select className="join-item btn btn-sm" value={currentPage} onChange={(e) => handlePageChange(Number(e.target.value))}>
 						{Array.from({length: totalPages}, (_, i) => i + 1).map(page => (
 							<option key={page} value={page}>Page {page}</option>
 						))}
 					</select>
-					<button className="join-item btn" onClick={() => handlePageChange(currentPage + 1)}>»</button>
+					<button className="join-item btn btn-sm" onClick={() => handlePageChange(currentPage + 1)}>»</button>
                 </div>
 			</div>
 		</div>
