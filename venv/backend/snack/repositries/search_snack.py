@@ -1,6 +1,5 @@
 from ..models import SnackModel
 from like.models import LikeModel
-from accounts.models import Account
 from django.db.models import Case, When, F, DecimalField
 from translate import Translator
 from translate.exceptions import TranslationError

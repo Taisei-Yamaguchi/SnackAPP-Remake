@@ -3,14 +3,14 @@ from accounts.models import Account
 from django.core.exceptions import ValidationError
 
 class SnackModel(models.Model):
-    tid = models.CharField(unique=True, null=True)
+    tid = models.CharField(unique=True, null=True,blank=True)
     name = models.CharField(max_length=50)
     maker = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)  
     type = models.CharField(max_length=50)
     country = models.CharField(max_length=255)
-    image = models.CharField(max_length=255, null=True)
-    url = models.URLField(null=True)
+    image = models.CharField(max_length=255, null=True,blank=True)
+    url = models.URLField(null=True,blank=True)
     show = models.BooleanField(default=True)
     account = models.ForeignKey(Account, on_delete=models.CASCADE, null=True,blank=True)  
     like_count = models.IntegerField(default=0)

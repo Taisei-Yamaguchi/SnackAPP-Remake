@@ -15,7 +15,6 @@ const SnackSearch:FC<Props> = ({page}) => {
     const reloading = useAppSelector((state: RootState) => state.reloadSlice.reloading);
     const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
 	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
-    // const [searchPage,setSearchPage]= useState(page)
     const [keyword, setKeyword] = useState('');
     const [maker, setMaker] = useState('');
     const [order, setOrder] = useState('');
@@ -25,10 +24,6 @@ const SnackSearch:FC<Props> = ({page}) => {
     const [onlyLike,setOnlyLike] = useState(false);
     const [onlyYouPost,setOnlyYouPost] = useState(false)
     const [onlyUsersPost,setOnlyUsersPost] = useState(false);
-
-    // useEffect(()=>{
-    //     setSearchPage(1)
-    // },[keyword,maker,order,type,country,onlyLike,onlyUsersPost,onlyYouPost])
 
     useEffect(() => {
         handleSearch();
@@ -44,7 +39,6 @@ const SnackSearch:FC<Props> = ({page}) => {
         const onlyYouPostParam = onlyYouPost ? `only_you_post=${onlyYouPost}`:'';
         const onlyUsersPostParam = onlyUsersPost ? `only_users_post=${onlyUsersPost}`:'';
         const pageParam = page ? `page=${page}`:'';
-        
         const queryParams = [keywordParam, makerParam, orderParam, typeParam, countryParam,onlyLikeParam,onlyYouPostParam,onlyUsersPostParam,pageParam].filter(param => param !== '').join('&');
         const query = queryParams ? `?${queryParams}` : '';
         // API request
@@ -52,7 +46,6 @@ const SnackSearch:FC<Props> = ({page}) => {
             const data = await snackSearch(query,token);
             dispatch(setSnackResult(data.result));
             dispatch(setTotalPages(data.total_pages));
-            console.log(data)
         } catch (error) {
             console.error('Error fetching data:', error);
         } 

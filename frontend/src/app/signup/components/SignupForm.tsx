@@ -14,7 +14,7 @@ import { UserData } from '@/interfaces';
 const formSchema = yup.object().shape({
     username: yup
         .string()
-        .matches(/^\S*$/, 'Username cannot contain spaces') 
+        .matches(/^[a-zA-Z0-9@/./+/-/_]{1,30}$/, 'Username must contain only letters, digits, and @/./+/-/_')
         .required("username is required!"),
     password: yup
         .string()
@@ -59,9 +59,6 @@ const SignupForm = () => {
         getAccountsList()
     },[])
 
-    useEffect(()=>{
-        console.log(existingAccounts)
-    },[existingAccounts])
     const formik = useFormik<FormData>({
         initialValues: FORM_DATA,
         validationSchema: formSchema,
@@ -71,21 +68,18 @@ const SignupForm = () => {
                 return;
             } 
             const isUsernameTaken = existingAccounts.some(account => account.username === formData.username);
-            console.log("確認",isUsernameTaken)
             if (isUsernameTaken){
                 setToast({ message: "This username is already used.", type: "error" });
                 return;
             }
             const { confirm_password, ...signupData } = formData;
             const data = await signup(signupData);
-            console.log(data);
             if (data.error) {
                 setToast({ message: data.error, type: "error" });
             } else {
                 // here, login automatically before going to home.
                 
                 try {
-                    console.log(formData)
                     const response = await fetch('/api/auth/', {
                         method: 'POST',
                         headers: {

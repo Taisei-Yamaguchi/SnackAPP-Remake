@@ -7,6 +7,5 @@ export const snackHide= async (snack_id:number,token:string)=>{
         },
         body: JSON.stringify({})
     });
-    console.log("Delete Response",response)
     return response;
 }
