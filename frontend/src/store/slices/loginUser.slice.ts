@@ -5,7 +5,7 @@ type Account = {id: number, username: string, language:string}
 type Token =string
 
 export type LoginUserState = {
-    account: Account |null,
+    account: Account | null,
     token: Token | null
 };
 

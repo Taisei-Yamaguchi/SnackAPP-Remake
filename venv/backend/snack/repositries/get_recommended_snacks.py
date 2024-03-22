@@ -1,13 +1,10 @@
 from ..models import SnackModel
-from itertools import groupby
 from random import sample
 from random import shuffle
-from random import choice
 from django.db.models import Count
 from like.models import LikeModel
 
 def format_snack_data(snack):
-    
     return {
         'id': snack.id,
         'tid': snack.tid,
@@ -45,7 +42,7 @@ def get_popular(snacks_with_highest_likes):
 def get_snacks_by_rule(rule,login_user):
     if login_user is not None:
         if rule == "type_you_like":
-            ## Get the most liked snack type by the user
+            ## Get the most liked snack "type" by the user
             most_liked_snack_type = LikeModel.objects.filter(account_id=login_user).values('snack_id__type') \
                 .annotate(count=Count('snack_id__type')).order_by('-count').first()
             
@@ -56,7 +53,7 @@ def get_snacks_by_rule(rule,login_user):
             data = get_popular(snacks_with_highest_likes)
             return {"type":most_liked_snack_type,"items":data}
         elif rule == "country_you_like":
-            ## Get the most liked snack country by the user
+            ## Get the most liked snack "country" by the user
             most_liked_snack_country = LikeModel.objects.filter(account_id=login_user).values('snack_id__country') \
                 .annotate(count=Count('snack_id__country')).order_by('-count').first()
             if most_liked_snack_country is None:
@@ -65,7 +62,7 @@ def get_snacks_by_rule(rule,login_user):
             data = get_popular(snacks_with_highest_likes)
             return {"country":most_liked_snack_country,"items":data}
         elif rule == "maker_you_like":
-            ## Get the most liked snack maker by the user
+            ## Get the most liked snack "maker" by the user
             most_liked_snack_maker = LikeModel.objects.filter(account_id=login_user).values('snack_id__maker') \
                 .annotate(count=Count('snack_id__maker')).order_by('-count').first()
             if most_liked_snack_maker is None:
@@ -78,6 +75,7 @@ def get_snacks_by_rule(rule,login_user):
             data = get_popular(snacks_with_highest_likes)
             return {"items":data}
     else:
+        # "random_popularity"
         snacks_with_highest_likes = list(SnackModel.objects.order_by('-like_count'))
         data = get_popular(snacks_with_highest_likes)
         return {"items":data}

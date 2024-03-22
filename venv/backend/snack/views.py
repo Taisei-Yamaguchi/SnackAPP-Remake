@@ -1,23 +1,15 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-import requests
-from .serializers import SnackSerializer
 from rest_framework import status
-from accounts.models import Account
 from .repositries.search_snack import getSearchSnack
 from .repositries.hide_snack import hide_snack
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import AllowAny
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .models import SnackModel
-from random import sample
 from .services.define_recommend_snack_logic import define_recommend_snack_logic
-from .repositries.get_snacks_by_rule import get_snacks_by_rule
-from .serializers import SnackSerializer
-
-import cloudinary
-import cloudinary.uploader
+from .repositries.get_recommended_snacks import get_snacks_by_rule
+from .repositries.create_snack import create_snack
+from .services.upload_cloudinary import upload_cloudinary
 
 class SnackSearchAPIView(APIView):
     permission_classes = [AllowAny]  # No matter token exist or not, it's possible to search snack.
@@ -71,19 +63,16 @@ class CreateSnackAPIView(APIView):
         price = request.data.get('price')
         url = request.data.get('url', None)
         account = request.user
-
         image_file = request.FILES.get('image', None)
+        
         # upload image and get 'url', Cloudinary
         if image_file:
-            result = cloudinary.uploader.upload(
-                image_file,
-                folder="snack_images"
-            )
-            image_url = result['secure_url']
+            image_url = upload_cloudinary(image_file)
         else:
             image_url = None
             
-        snack = SnackModel.objects.create(
+        # create SnackModel
+        response_data = create_snack(
             name=name,
             maker=maker,
             type=type,
@@ -91,23 +80,9 @@ class CreateSnackAPIView(APIView):
             price=price,
             url=url,
             account=account,
-            image=image_url 
+            image_url=image_url 
         )
-        
-        response_data = {
-            'id': snack.id,
-            'tid':snack.tid,
-            'name': snack.name,
-            'maker': snack.maker,
-            'type': snack.type,
-            'country': snack.country,
-            'price': snack.price,
-            'url': snack.url,
-            'image':snack.image,
-            'account': snack.account.id, 
-        }
         return Response(response_data, status=status.HTTP_201_CREATED)
-        
 
 class HideSnackAPIView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -124,7 +99,7 @@ class HideSnackAPIView(APIView):
         return Response(response, status=status.HTTP_204_NO_CONTENT)
     
 class RecommendSnackAPIView(APIView):
-    permission_classes = [AllowAny]  # No matter token exist or not, it's possible to search snack.
+    permission_classes = [AllowAny]  # No matter token exist or not, it's possible to get  recommended-snack.
 
     def get(self, request):
         login_user = None
@@ -135,5 +110,4 @@ class RecommendSnackAPIView(APIView):
         # "random_popularity", "type_you_like", "country_you_like", "maker_you_like"
         get_snack_rule = define_recommend_snack_logic(login_user)
         recommended_snacks = get_snacks_by_rule(get_snack_rule,login_user)
-        # print("recommended_snacks:",recommended_snacks)
         return Response(recommended_snacks)

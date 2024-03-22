@@ -1,8 +1,9 @@
 "use client"
-import { useEffect, useState } from "react";
+
 import { useAppDispatch } from "@/store";
-import { setReloading } from "@/store/slices/reload.slice";
 import { useRouter } from 'next/navigation';
+import { setAccount } from "@/store/slices/loginUser.slice";
+import { setToken } from "@/store/slices/loginUser.slice";
 
 const LogoutButton=()=>{
     const dispatch = useAppDispatch()
@@ -19,6 +20,8 @@ const LogoutButton=()=>{
                 document.cookie = "loginUsername=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 document.cookie = "loginToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
+                dispatch(setAccount(null));
+                dispatch(setToken(null));
                 router.push('/login');
             } else {
                 console.error("Failed to logout");

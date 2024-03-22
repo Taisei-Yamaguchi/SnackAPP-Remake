@@ -2,24 +2,12 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { login } from '@/django_api/login';
-import { logout } from '@/django_api/logout';
-import { destroyCookie } from 'nookies'; 
-
-type loginUser= {
-    account:{id:number,username:string,language:string},
-    token:string; 
-}| null
-
-interface CustomCookies {
-    loginUser?: loginUser;
-}
-
 
 export async function POST(req: NextRequest) {
     try {
         const { formData } = await req.json();
         const data = await login(formData);
-        console.log('Login', data.account);
+        // console.log('Login', data.account.username);
 
         if (data.error) {
             throw new Error('Failed to login');
@@ -62,23 +50,5 @@ export async function GET(req: NextRequest) {
     } catch (error: any) {
         console.error('Error while fetching login user info:', error.message);
         return NextResponse.json({ success: false, error: 'Failed to fetch login user info' }, { status: 500 });
-    }
-}
-
-export async function DELETE(req: NextRequest) {
-    try {
-        const loginToken = req.cookies.get("loginToken")?.value;
-        // Logout in Django
-        const res = await logout(loginToken);
-        // Clear session if logout successful in Client
-        if (res.error) {
-            throw new Error('Failed to logout');
-        }
-        
-        return NextResponse.json({ success: true });
-    } catch (error) {
-        console.error('Error while logging out:', error);
-
-        return NextResponse.json({ success: false, error: 'Failed to logout' }, { status: 500 });
     }
 }

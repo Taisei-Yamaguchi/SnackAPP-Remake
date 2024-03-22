@@ -24,7 +24,7 @@ class CreateAccountAPIView(APIView):
         
         return Response({'message': 'Account created successfully.'}, status=status.HTTP_201_CREATED)
 
-class GetAccountAPIView(APIView):
+class GetAccountsAPIView(APIView):
     def get(self, request, *args, **kwargs):
         accounts = Account.objects.all().values('id', 'username')
         print(accounts)

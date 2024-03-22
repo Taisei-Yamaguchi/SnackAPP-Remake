@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import LogoutButton from "./LogoutButton";
 import { useAppSelector } from "@/store";
 import { RootState } from "@/store";
@@ -9,17 +9,11 @@ import PostSnack from './PostSnack';
 const HomeHeader = () => {
 	//* Get login User from cookie
 	const account = useAppSelector((state:RootState)=>state.loginUserSlice.account)
-	const token = useAppSelector((state:RootState)=>state.loginUserSlice.token)
 	const [rightMenuOpen, setRightMenuOpen] = useState(false);
 	
 	const toggleRightMenu = () => {
 		setRightMenuOpen(!rightMenuOpen);
 	};
-
-	useEffect(()=>{
-		console.log(account)
-	},[account])
-
 
 	return (
 		<header className="bg-gradient-to-r from-red-500 to-pink-500 fixed pt-2 top-0 left-0 right-0 z-50 h-14 flex w-full items-center justify-between p-2">

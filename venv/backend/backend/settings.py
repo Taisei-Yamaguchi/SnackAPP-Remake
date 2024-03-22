@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     
-    # installed apps
+    # new installed
     # "django.contrib.site",
     # "allauth",
     # "allauth.account",
@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     # created apps
     "snack.apps.SnackConfig",
     "accounts.apps.AccountsConfig",
-    "external_snack.apps.ExternalSnackConfig",
     "like.apps.LikeConfig",
 ]
 

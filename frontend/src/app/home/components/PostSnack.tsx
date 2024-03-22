@@ -76,7 +76,6 @@ const PostSnack = ()=>{
         initialValues: FORM_DATA,
         validationSchema: formSchema,
         onSubmit: async (formData:FormType) => {
-			console.log(formData)
 			
             try {
 				// Exclude empty url and price
@@ -85,7 +84,6 @@ const PostSnack = ()=>{
 					url: formData.url !== '' ? formData.url : null,
 				};
 				if(account&&token){
-					console.log("formData",formData)
 					snackCreate(filteredFormData,token)
 					setIsOpen(false)
 				}else{

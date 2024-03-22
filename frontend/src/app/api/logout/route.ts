@@ -13,11 +13,10 @@ export async function DELETE(req: NextRequest) {
             throw new Error('Failed to logout');
         }
         
-        console.log("Logout",res)
+        // console.log("Logout",res)
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error('Error while logging out:', error);
-
         return NextResponse.json({ success: false, error: 'Failed to logout' }, { status: 500 });
     }
 }
