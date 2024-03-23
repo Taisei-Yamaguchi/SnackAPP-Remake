@@ -1,5 +1,7 @@
+import { BACKEND_ENDPOINT } from "@/config/envs";
+
 export const accountsList = async () => {
-    const response = await fetch(`http://localhost:8000/accounts/list/`, {
+    const response = await fetch(`${BACKEND_ENDPOINT}/accounts/list/`, {
         method: 'GET',
         headers: {"Content-Type": "application/json"},
     });

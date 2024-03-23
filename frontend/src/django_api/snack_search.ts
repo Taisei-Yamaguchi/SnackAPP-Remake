@@ -1,3 +1,5 @@
+import { BACKEND_ENDPOINT } from "@/config/envs";
+
 export const snackSearch = async (query: string, token: string | undefined | null) => {
     const headers: { [key: string]: string } = {
         "Content-Type": "application/json",
@@ -8,7 +10,7 @@ export const snackSearch = async (query: string, token: string | undefined | nul
         headers["Authorization"] = `Token ${token}`;
     }
 
-    const response = await fetch(`http://localhost:8000/snack/search/${query}`, {
+    const response = await fetch(`${BACKEND_ENDPOINT}/snack/search/${query}`, {
         method: 'GET',
         headers: headers,
     });

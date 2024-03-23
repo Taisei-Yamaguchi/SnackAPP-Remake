@@ -1,4 +1,5 @@
 import { SnackInputData } from "@/interfaces/index";
+import { BACKEND_ENDPOINT } from "@/config/envs";
 
 export const snackCreate = async (snackData:SnackInputData,token: string) => {
     console.log(snackData)
@@ -16,7 +17,7 @@ export const snackCreate = async (snackData:SnackInputData,token: string) => {
     }
     console.log(formData)
     try{
-        const response = await fetch(`http://localhost:8000/snack/create/`, {
+        const response = await fetch(`${BACKEND_ENDPOINT}/snack/create/`, {
             method: 'POST',
             headers: {
                 "Authorization": `Token ${token}` 
