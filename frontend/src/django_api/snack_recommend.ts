@@ -1,3 +1,5 @@
+import { BACKEND_ENDPOINT } from "@/config/envs";
+
 export const snackRecommend = async (token: string | undefined | null) => {
     const headers: { [key: string]: string } = {
         "Content-Type": "application/json",
@@ -8,7 +10,7 @@ export const snackRecommend = async (token: string | undefined | null) => {
         headers["Authorization"] = `Token ${token}`;
     }
 
-    const response = await fetch(`http://localhost:8000/snack/recommend/`, {
+    const response = await fetch(`${BACKEND_ENDPOINT}/snack/recommend/`, {
         method: 'GET',
         headers: headers,
     });

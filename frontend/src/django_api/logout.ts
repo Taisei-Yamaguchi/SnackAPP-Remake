@@ -1,9 +1,11 @@
 "use server"
+import { BACKEND_ENDPOINT } from "@/config/envs";
+
 export const logout= async (token:string|undefined)=>{
     if(token===undefined){
         return {"error":"Token is required!"}
     }
-    const response = await fetch(`http://localhost:8000/accounts/logout/`, {
+    const response = await fetch(`$${BACKEND_ENDPOINT}/accounts/logout/`, {
         method: 'POST',
         headers: {
             "content-type": "application/json",
