@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# DEBUG = False
-DEBUG = True
+DEBUG = False
+#DEBUG = True
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -18,15 +18,15 @@ ALLOWED_HOSTS = [os.getenv("ALLOWED_HOSTS")]
 STATIC_URL = "static/"
 STATIC_ROOT="/usr/share/nginx/html/static"
 
-# CORS_ALLOWED_ORIGINS = [  
-#     os.getenv("SERVER_ORIGIN"),
-#     os.getenv("FRONTEND_ORGIN")
-# ]
+CORS_ALLOWED_ORIGINS = [  
+    os.getenv("SERVER_ORIGIN"),
+    os.getenv("FRONTEND_ORGIN")
+]
 # # Allow same origin
 # SECURE_REFERRER_POLICY = 'same-origin'
 
 # test
-CORS_ALLOW_ALL_ORIGINS = True  # allow all origin
+# CORS_ALLOW_ALL_ORIGINS = True  # allow all origin
 
 # LOGGING Settings
 LOGGING = {
