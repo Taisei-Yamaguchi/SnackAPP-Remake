@@ -33,7 +33,7 @@ CORS_ALLOWED_ORIGINS = [
 # SECURE_REFERRER_POLICY = 'same-origin'
 
 # test
-CORS_ALLOW_ALL_ORIGINS = True  # allow all origin
+# CORS_ALLOW_ALL_ORIGINS = True  # allow all origin
 
 # LOGGING Settings
 LOGGING = {
