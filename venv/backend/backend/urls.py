@@ -22,8 +22,8 @@ from like.urls import urlpatterns as like_urls
 from accounts.urls import urlpatterns as accounts_urls
 
 urlpatterns = [
-    path("api/admin/", admin.site.urls),
-    path("api/snack/",include(post_snack_urls)),
-    path("api/like/",include(like_urls)),
-    path("api/accounts/",include(accounts_urls)),
+    path("django/admin/", admin.site.urls),
+    path("django/snack/",include(post_snack_urls)),
+    path("django/like/",include(like_urls)),
+    path("django/accounts/",include(accounts_urls)),
 ]
