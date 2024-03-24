@@ -18,6 +18,62 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # LOGGING Settings
+# LOGGING = {
+#     'version':1,
+#     "disable_existing_loggers":False,
+    
+#     # LOGGER
+#     'loggers':{
+#         # django
+#         'django': {
+#             'handlers':['file'],
+#             'level': 'INFO',
+#         },
+#         # accounts
+#         'accounts': {
+#             'handlers':['file'],
+#             'level': 'INFO',
+#         },
+#         # snack
+#         'snack': {
+#             'handlers':['file'],
+#             'level': 'INFO',
+#         },
+#         # like
+#         'like': {
+#             'handlers':['file'],
+#             'level': 'INFO',
+#         },
+#     },
+    
+#     # handlers
+#     'handlers': {
+#         "file": {
+#             'level':'INFO',
+#             'class':'logging.handlers.TimedRotatingFileHandler',
+#             'filename': os.path.join(BASE_DIR,'logs/django.log'),
+#             'formatter':'prod',
+#             'when':'D',
+#             'interval':1,
+#             'backupCOunt':7,
+#         },
+#     },
+    
+#     # formatter
+#     'formatters':{
+#         'prod':{
+#             'format': '\t'.join([
+#                 '%(asctime)s',
+#                 '[%(levelname)s]',
+#                 '%(pathname)s(Line:%(lineno)d)',
+#                 '%(message)s'
+#             ])
+#         },
+#     }
+# }
+
+
+# LOGGING Settings
 LOGGING = {
     'version':1,
     "disable_existing_loggers":False,
@@ -26,36 +82,32 @@ LOGGING = {
     'loggers':{
         # django
         'django': {
-            'handlers':['file'],
+            'handlers':['console'],
             'level': 'INFO',
         },
         # accounts
         'accounts': {
-            'handlers':['file'],
+            'handlers':['console'],
             'level': 'INFO',
         },
         # snack
         'snack': {
-            'handlers':['file'],
+            'handlers':['console'],
             'level': 'INFO',
         },
         # like
         'like': {
-            'handlers':['file'],
+            'handlers':['console'],
             'level': 'INFO',
         },
     },
     
     # handlers
     'handlers': {
-        "file": {
+        "console": {
             'level':'INFO',
-            'class':'logging.handlers.TimedRotatingFileHandler',
-            'filename': os.path.join(BASE_DIR,'logs/django.log'),
-            'formatter':'prod',
-            'when':'D',
-            'interval':1,
-            'backupCOunt':7,
+            'class':'logging.StreamHandler',
+            'formatter':'prod'
         },
     },
     
