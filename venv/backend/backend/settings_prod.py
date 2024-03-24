@@ -19,6 +19,10 @@ ALLOWED_HOSTS = [
     "https://snack.taiseiyama.com",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://snack.taiseiyama.com',
+]
+
 STATIC_URL = "static/"
 STATIC_ROOT="/usr/share/nginx/html/static"
 
