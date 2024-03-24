@@ -13,7 +13,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = [os.getenv("ALLOWED_HOSTS")]
+ALLOWED_HOSTS = [
+    os.getenv("ALLOWED_HOSTS"),
+    "snack.taiseiyama.com",
+]
 
 STATIC_URL = "static/"
 STATIC_ROOT="/usr/share/nginx/html/static"
@@ -22,7 +25,7 @@ CORS_ALLOWED_ORIGINS = [
     os.getenv("SERVER_ORIGIN"),
     os.getenv("FRONTEND_ORGIN"),
     'http://localhost:3000',
-    'http://snack.taiseiyama.com',
+    'https://snack.taiseiyama.com',
 ]
 # # # # Allow same origin
 # SECURE_REFERRER_POLICY = 'same-origin'
