@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DEBUG = False
-#DEBUG = True
+# DEBUG = True
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,8 +24,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://snack.taiseiyama.com',
 ]
-# # # Allow same origin
-SECURE_REFERRER_POLICY = 'same-origin'
+# # # # Allow same origin
+# SECURE_REFERRER_POLICY = 'same-origin'
 
 # test
 # CORS_ALLOW_ALL_ORIGINS = True  # allow all origin
