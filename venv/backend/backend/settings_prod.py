@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# DEBUG = False
-DEBUG = True
+DEBUG = False
+# DEBUG = True
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
