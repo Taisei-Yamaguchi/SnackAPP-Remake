@@ -1,9 +1,12 @@
+import os
+
 DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-*_#09*d+m=6o^bn@*^^p$d5(xd(a&4%k2jco^6g2_d!^+-w#21"
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = [os.getenv("ALLOWED_HOSTS")]
 
 CORS_ALLOW_ALL_ORIGINS = True  # allow all origin
 

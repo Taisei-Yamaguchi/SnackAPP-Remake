@@ -4,13 +4,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DEBUG = False
+# DEBUG = False
+DEBUG = True
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
+# ALLOWED_HOSTS = []
 ALLOWED_HOSTS = [os.getenv("ALLOWED_HOSTS")]
 
 # CORS_ALLOWED_ORIGINS = [  
