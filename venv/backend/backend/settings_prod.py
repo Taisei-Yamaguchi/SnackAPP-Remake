@@ -14,7 +14,8 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = [
-    os.getenv("ALLOWED_HOSTS"),
+    # os.getenv("ALLOWED_HOSTS"),
+    'api-futures.kucoin.com',
     "https://snack.taiseiyama.com",
 ]
 
