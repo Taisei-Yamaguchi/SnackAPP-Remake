@@ -17,6 +17,9 @@ CORS_ALLOWED_ORIGINS = [
     os.getenv("SERVER_ORIGIN"),
     os.getenv("FRONTEND_ORGIN")
 ]
+# Allow same origin
+SECURE_REFERRER_POLICY = 'same-origin'
+
 
 # LOGGING Settings
 LOGGING = {
