@@ -26,6 +26,8 @@ CORS_ALLOWED_ORIGINS = [
     os.getenv("FRONTEND_ORGIN"),
     'http://localhost:3000',
     'https://snack.taiseiyama.com',
+    "localhost:3000",
+    "snack.taiseiyama.com",
 ]
 # # # # Allow same origin
 # SECURE_REFERRER_POLICY = 'same-origin'
