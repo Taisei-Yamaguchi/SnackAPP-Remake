@@ -22,8 +22,8 @@ from like.urls import urlpatterns as like_urls
 from accounts.urls import urlpatterns as accounts_urls
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("snack/",include(post_snack_urls)),
-    path("like/",include(like_urls)),
-    path("accounts/",include(accounts_urls)),
+    path("api/admin/", admin.site.urls),
+    path("api/snack/",include(post_snack_urls)),
+    path("api/like/",include(like_urls)),
+    path("api/'accounts/",include(accounts_urls)),
 ]
