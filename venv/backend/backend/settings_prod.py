@@ -21,14 +21,14 @@ ALLOWED_HOSTS = [
 STATIC_URL = "static/"
 STATIC_ROOT="/usr/share/nginx/html/static"
 
-# CORS_ALLOWED_ORIGINS = [  
-#     os.getenv("SERVER_ORIGIN"),
-#     os.getenv("FRONTEND_ORGIN"),
-#     'http://localhost:3000',
-#     'https://snack.taiseiyama.com',
-#     "localhost:3000",
-#     "snack.taiseiyama.com",
-# ]
+CORS_ALLOWED_ORIGINS = [  
+    # os.getenv("SERVER_ORIGIN"),
+    # os.getenv("FRONTEND_ORGIN"),
+    'http://localhost:3000',
+    'https://snack.taiseiyama.com',
+    # "localhost:3000",
+    # "snack.taiseiyama.com",
+]
 # # # # Allow same origin
 # SECURE_REFERRER_POLICY = 'same-origin'
 
