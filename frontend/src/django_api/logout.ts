@@ -5,7 +5,7 @@ export const logout= async (token:string|undefined)=>{
     if(token===undefined){
         return {"error":"Token is required!"}
     }
-    const response = await fetch(`$${BACKEND_ENDPOINT}/accounts/logout/`, {
+    const response = await fetch(`${BACKEND_ENDPOINT}/accounts/logout/`, {
         method: 'POST',
         headers: {
             "content-type": "application/json",
