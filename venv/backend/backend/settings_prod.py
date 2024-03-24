@@ -91,53 +91,6 @@ LOGGING = {
 }
 
 
-# # LOGGING Settings
-# LOGGING = {
-#     'version':1,
-#     "disable_existing_loggers":False,
-    
-#     # LOGGER
-#     'loggers':{
-#         # django
-#         'django': {
-#             'handlers':['console'],
-#             'level': 'INFO',
-#         },
-#         # accounts
-#         'accounts': {
-#             'handlers':['console'],
-#             'level': 'INFO',
-#         },
-#         # snack
-#         'snack': {
-#             'handlers':['console'],
-#             'level': 'INFO',
-#         },
-#         # like
-#         'like': {
-#             'handlers':['console'],
-#             'level': 'INFO',
-#         },
-#     },
-    
-#     # handlers
-#     'handlers': {
-#         "console": {
-#             'level':'INFO',
-#             'class':'logging.StreamHandler',
-#             'formatter':'prod'
-#         },
-#     },
-    
-#     # formatter
-#     'formatters':{
-#         'prod':{
-#             'format': '\t'.join([
-#                 '%(asctime)s',
-#                 '[%(levelname)s]',
-#                 '%(pathname)s(Line:%(lineno)d)',
-#                 '%(message)s'
-#             ])
-#         },
-#     }
-# }
+CSRF_COOKIE_SAMESITE = None
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = True
