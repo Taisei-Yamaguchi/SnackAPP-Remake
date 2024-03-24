@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = [
     os.getenv("ALLOWED_HOSTS"),
-    "snack.taiseiyama.com",
+    "https://snack.taiseiyama.com",
 ]
 
 STATIC_URL = "static/"
