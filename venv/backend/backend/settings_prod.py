@@ -13,13 +13,15 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 ALLOWED_HOSTS = [os.getenv("ALLOWED_HOSTS")]
 
-CORS_ALLOWED_ORIGINS = [  
-    os.getenv("SERVER_ORIGIN"),
-    os.getenv("FRONTEND_ORGIN")
-]
-# Allow same origin
-SECURE_REFERRER_POLICY = 'same-origin'
+# CORS_ALLOWED_ORIGINS = [  
+#     os.getenv("SERVER_ORIGIN"),
+#     os.getenv("FRONTEND_ORGIN")
+# ]
+# # Allow same origin
+# SECURE_REFERRER_POLICY = 'same-origin'
 
+# test
+CORS_ALLOW_ALL_ORIGINS = True  # allow all origin
 
 # LOGGING Settings
 LOGGING = {
