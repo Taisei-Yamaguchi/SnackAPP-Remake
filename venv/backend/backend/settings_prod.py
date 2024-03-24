@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # DEBUG = False
-DEBUG = True
+DEBUG = False
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -14,6 +14,9 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = [os.getenv("ALLOWED_HOSTS")]
+
+STATIC_URL = "static/"
+STATIC_ROOT="/usr/share/nginx/html/static"
 
 # CORS_ALLOWED_ORIGINS = [  
 #     os.getenv("SERVER_ORIGIN"),
