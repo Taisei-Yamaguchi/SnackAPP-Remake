@@ -19,8 +19,8 @@ STATIC_URL = "static/"
 STATIC_ROOT="/usr/share/nginx/html/static"
 
 CORS_ALLOWED_ORIGINS = [  
-    os.getenv("SERVER_ORIGIN"),
-    os.getenv("FRONTEND_ORGIN"),
+    # os.getenv("SERVER_ORIGIN"),
+    # os.getenv("FRONTEND_ORGIN"),
     'http://localhost:3000',
     'http://35.76.4.240',
 ]
