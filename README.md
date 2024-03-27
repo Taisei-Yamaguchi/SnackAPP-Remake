@@ -42,7 +42,7 @@
 
 ## ERD
 >
-  - [SnackApp-Remake ERD]
+  - [SnackApp-Remake ERD](https://app.diagrams.net/index.html#G1EuzNAl6JgjCvWxAF4nKGuX32ub1ZhVk9#%7B%22pageId%22%3A%22gk1mbwmjC_SFVjR4H5pb%22%7D)
   - ![SnackApp-Remake drawio](https://github.com/Taisei-Yamaguchi/SnackAPP-Remake/assets/119865966/9c6cf07b-6064-40f0-b5e3-5ad436dca54b)
 
 ## External API
