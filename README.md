@@ -48,6 +48,7 @@
 ## External API
 >
   - <del>[お菓子の虜](https://sysbird.jp/toriko/webapi/)</del>
+  - [Cloudinary](https://cloudinary.com/)
  
 ## Tech Choices
 >
